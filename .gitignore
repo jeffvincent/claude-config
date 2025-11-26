@@ -1,0 +1,51 @@
+# Secrets directory - NEVER commit credentials
+secrets/
+
+# Environment files
+*.env
+.env.*
+!.env.example
+
+# OAuth tokens and credentials (backup exclusion)
+**/credentials.json
+**/token.json
+**/tokens.json
+!**/*.example
+
+# Dependencies
+node_modules/
+package-lock.json
+*.log
+
+# Personal data directories
+history.jsonl
+session-env/
+debug/
+file-history/
+shell-snapshots/
+todos/
+plans/
+projects/
+downloads/
+logs/
+statsig/
+
+# Local settings
+settings.local.json
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.bak
+*.backup

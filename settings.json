@@ -1,0 +1,15 @@
+{
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-anchor.sh"
+  },
+  "alwaysThinkingEnabled": true,
+  "feedbackSurveyState": {
+    "lastShownTime": 1754062597340
+  },
+  "hooks": {
+    "post-tool": {
+      "Bash": "~/.claude/hooks/log-image-generation.sh"
+    }
+  }
+}
