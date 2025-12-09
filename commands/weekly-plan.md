@@ -2,6 +2,14 @@ Execute a comprehensive weekly planning session that aligns your calendar with y
 
 # Weekly Planning Process
 
+## ⚠️ CRITICAL PRINCIPLE: ASK, DON'T INTERPRET
+
+**Never guess or interpret meeting content based on titles.**
+- Present EXACT calendar data (exact meeting titles, times, etc.)
+- ASK the user which meetings need prep, align with priorities, etc.
+- Let the user make strategic decisions based on accurate data
+- Only create tasks/take actions based on explicit user input
+
 This command orchestrates a multi-step planning workflow:
 
 ## Step 1: Review Priorities
@@ -30,55 +38,110 @@ First, check if priorities are set. Priorities are stored in `~/.claude/weekly-p
 
 ## Step 2: Calendar Review & Preparation Needs
 
-Use the google-calendar-skill to:
+### CRITICAL: Fetch BOTH Calendars
 
-1. **List current week's events (today through Sunday):**
-   ```bash
-   cd ~/.claude/skills/google-calendar-skill/scripts
+User has multiple calendar accounts. Always fetch BOTH:
 
-   # Calculate next Sunday at 11:59pm
-   # If today is Sunday, go to the following Sunday
-   DAY_OF_WEEK=$(date +%u)  # 1=Monday, 7=Sunday
-   if [ "$DAY_OF_WEEK" -eq 7 ]; then
-     DAYS_TO_SUNDAY=7  # If today is Sunday, go to next Sunday
-   else
-     DAYS_TO_SUNDAY=$((7 - DAY_OF_WEEK))  # Days until this Sunday
-   fi
+```bash
+cd ~/.claude/skills/google-calendar-skill/scripts
 
-   # Get events from now through end of week (Sunday 11:59pm)
-   TIME_MIN=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-   TIME_MAX=$(date -u -v+${DAYS_TO_SUNDAY}d +"%Y-%m-%dT23:59:59Z")
+# Calculate time range (today through Sunday)
+TODAY=$(date -u +"%Y-%m-%d")
+# For Sunday end date, calculate properly based on day of week
+WEEK_END="[calculate Sunday date]"
 
-   node calendar-events-list.js --timeMin "$TIME_MIN" --timeMax "$TIME_MAX"
-   ```
+TIME_MIN="${TODAY}T00:00:00Z"
+TIME_MAX="${WEEK_END}T23:59:59Z"
 
-   **Time range examples:**
-   - Run on Monday: Reviews Monday through Sunday (6 days)
-   - Run on Wednesday: Reviews Wednesday through Sunday (4 days)
-   - Run on Sunday: Reviews Sunday through next Sunday (7 days)
-   - Accounts for long weekends and holidays naturally
+# Fetch WORK calendar
+node calendar-events-list.js --account work \
+  --timeMin "$TIME_MIN" --timeMax "$TIME_MAX" \
+  --limit 100 > /tmp/work-events.json
 
-2. **Analyze each event for preparation needs:**
-   - Identify meetings/events that require preparation (presentations, important meetings, reviews, etc.)
-   - Group by: "Needs Preparation" vs "Standard Attendance"
+# Fetch PERSONAL calendar (default account)
+node calendar-events-list.js \
+  --timeMin "$TIME_MIN" --timeMax "$TIME_MAX" \
+  --limit 100 > /tmp/personal-events.json
+```
 
-3. **Create preparation tasks:**
-   - For each event needing preparation, ask: "What preparation is needed for [Event Name]?"
-   - Use the things skill to create tasks:
-     ```python
-     # Example for each prep item
-     python3 -c "
-     import sys
-     sys.path.insert(0, '/Users/jvincent/.claude/skills/things/lib')
-     from writer import ThingsWriter
-     ThingsWriter.add_task(
-         title='Prepare for [Event Name]',
-         notes='Event: [Date/Time]\nPreparation: [Details]',
-         when='[due-date]',
-         tags=['preparation', 'calendar']
-     )
-     "
-     ```
+### Parse and Present Calendar Data
+
+**CRITICAL RULE: Never interpret or guess meeting content. Present EXACT data only.**
+
+Use Python to parse JSON safely:
+
+```python
+import json
+from datetime import datetime
+
+def parse_event(event):
+    """Parse event - handle both dict and string formats for 'start' field"""
+    start_field = event['start']
+
+    # Handle both formats: dict or string
+    if isinstance(start_field, dict):
+        start = start_field.get('dateTime') or start_field.get('date')
+    else:
+        start = start_field
+
+    # Parse datetime
+    if 'T' in start:
+        dt = datetime.fromisoformat(start.replace('Z', '+00:00'))
+        date_str = dt.strftime('%Y-%m-%d')
+        time_str = dt.strftime('%I:%M%p').lstrip('0').lower()
+    else:
+        date_str = start
+        time_str = 'All Day'
+
+    return {
+        'date': date_str,
+        'time': time_str,
+        'summary': event['summary'],  # EXACT summary - don't interpret!
+        'start_raw': start
+    }
+
+# Load and parse both calendars
+# Group by date, sort by time
+# Present to user with EXACT titles
+```
+
+### Present Calendar and ASK User
+
+Present the merged calendar grouped by day with exact meeting titles.
+
+**Then ASK the user (don't guess!):**
+
+"Looking at your calendar for this week, which meetings require preparation?"
+
+For each meeting they identify, ASK:
+- "How much prep time do you need?"
+- "Do you need time scheduled, or just a reminder?"
+
+### Create Preparation Tasks
+
+Only create tasks based on user's explicit answers:
+
+```python
+import sys
+sys.path.insert(0, '/Users/jvincent/.claude/skills/things/lib')
+from writer import ThingsWriter
+
+# For meetings needing TIME SCHEDULED:
+ThingsWriter.add_task(
+    title='Prep: [Exact Meeting Title] ([X]min)',
+    notes='Meeting: [Day] [Date], [Time]\nAction: [What user said]\nTime needed: [X] minutes - schedule this!',
+    when='[due-date]',
+    tags=['preparation', 'calendar', 'time-block-needed']
+)
+
+# For meetings needing REMINDER ONLY:
+ThingsWriter.add_task(
+    title='Prep: [Exact Meeting Title]',
+    notes='Meeting: [Day] [Date], [Time]\nReminder: [What user said] (no time block needed)',
+    when='[due-date]',
+    tags=['preparation', 'calendar']
+)
+```
 
 ## Step 3: Identify Focus Time & Suggest Activities
 
@@ -123,27 +186,43 @@ Use the google-calendar-skill to:
 
 ## Step 4: Priority Alignment Check
 
-1. **Analyze calendar events against priorities:**
-   - For each non-preparation meeting, evaluate:
-     * Does this directly support Priority 1, 2, or 3?
-     * If no, mark as "Low Priority Alignment"
+**CRITICAL: ASK the user about alignment. Don't guess based on meeting titles.**
 
-2. **Flag misaligned meetings:**
-   ```
-   ⚠️ Calendar Items Not Aligned with Priorities:
+### Present Priorities and ASK
 
-   - "Weekly status meeting" (Tuesday 2pm)
-     Reason: Doesn't directly support any current priority
-     Suggestion: Consider delegating or making this bi-weekly
+Show the user their 3 priorities again, then ASK:
 
-   - "Vendor demo" (Thursday 10am)
-     Reason: Not aligned with current focus areas
-     Suggestion: Reschedule to next month or decline
-   ```
+"Looking at your calendar, which meetings directly support each of your priorities?"
 
-3. **Present options:**
-   - "Would you like help rescheduling or declining any of these?"
-   - If yes, draft decline messages or reschedule using calendar scripts
+For example:
+- Priority #1: [User's priority]
+  - Which meetings support this?
+
+- Priority #2: [User's priority]
+  - Which meetings support this?
+
+- Priority #3: [User's priority]
+  - Which meetings support this?
+
+### Identify Misaligned Meetings
+
+Once user identifies aligned meetings, calculate which meetings DON'T align.
+
+Then ASK: "You have [X] meetings this week that don't directly align with your stated priorities. Would you like to review these?"
+
+If yes, present the list and ASK for each:
+- "Is this meeting necessary? Could it be:"
+  - Declined?
+  - Delegated to someone else?
+  - Made less frequent (bi-weekly instead of weekly)?
+  - Shortened?
+
+### Help with Rescheduling/Declining
+
+Only if user wants to decline/reschedule, offer:
+- Draft decline messages
+- Suggest alternative attendees for delegation
+- Use calendar scripts to reschedule
 
 ## Step 5: Weekly Summary
 
