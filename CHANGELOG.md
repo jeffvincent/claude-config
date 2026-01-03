@@ -19,9 +19,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Replaced all hardcoded `/Users/jvincent/` paths with portable `~/` paths
 - Updated browser-automation to use correct skill directory path
 - Standardized YAML frontmatter across all skills with `version` and `allowed-tools`
+- **Restructured Things skill for composability** (v2.0.0):
+  - Main `Skill.md` reduced from 360 to ~90 lines (lightweight dispatcher)
+  - Sub-skills moved to `skills/` subdirectory with standalone YAML frontmatter
+  - Each sub-skill now independently discoverable
+  - Fixed hardcoded paths in all sub-skills and README.md
 
 ### Removed
 - Empty `plugins/config.json` (unused)
+- Old Things sub-skill files from skill root (moved to `skills/` subdirectory)
 
 ## [1.0.0] - 2026-01-03
 
