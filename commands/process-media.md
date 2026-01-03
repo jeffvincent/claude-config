@@ -14,6 +14,6 @@ Steps:
 5. Identify 2-3 major themes and create/update synthesis notes
 6. Delete local video file
 
-Working directory: /Users/jvincent/Projects/Personal/Content Notes
+Working directory: ~/Projects/Personal/Content Notes (configurable via $CONTENT_NOTES_DIR)
 
 Use the existing process-media.sh script for download/upload, then do AI analysis.

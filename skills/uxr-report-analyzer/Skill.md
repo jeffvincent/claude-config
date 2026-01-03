@@ -1,6 +1,8 @@
 ---
 name: UXR Report Analyzer
 description: Analyzes UXR report PDFs and generates structured analysis documents with key findings, recommendations, and strategic connections. Use when given a UXR report to analyze.
+version: 1.0.0
+allowed-tools: [Read, Write, Bash]
 ---
 
 ## Overview
@@ -24,7 +26,7 @@ Do NOT use this Skill when:
 - **Project Context**: Information about HubSpot's Overall Data Strategy and strategic objectives (available in project resources)
 
 ## Outputs
-- Structured markdown analysis file saved to `/Users/jvincent/Projects/writing/resources/UXR Reports/Analysis/`
+- Structured markdown analysis file saved to `~/Projects/writing/resources/UXR Reports/Analysis/`
 - Filename format: `[Report_Name]_Analysis_[MM-YYYY].md`
 - HTML comment summary at top for quick reference
 - Original PDF moved to `Reviewed Reports/` folder after analysis
@@ -48,7 +50,7 @@ Do NOT use this Skill when:
 3. Review all extracted chunks to understand full report scope
 
 ### 3. Analyze Report Using Master Framework
-Read the project context from `/Users/jvincent/Projects/writing/resources/CLAUDE.md` to understand HubSpot's Overall Data Strategy and strategic objectives.
+Read the project context from `~/Projects/writing/resources/CLAUDE.md` to understand HubSpot's Overall Data Strategy and strategic objectives.
 
 Apply deep analysis to identify:
 - **Core research questions and methodology**
@@ -106,7 +108,7 @@ Last Reviewed: [YYYY-MM-DD]
 7. **Connected Research**
    - List 3-5 related studies from the catalog
    - For each: title, brief description of connection
-   - Use actual research from `/Users/jvincent/Projects/writing/resources/UXR Reports/Analysis/claude.md`
+   - Use actual research from `~/Projects/writing/resources/UXR Reports/Analysis/claude.md`
 
 8. **Disconnected Research** (if applicable)
    - Highlight contradictions or challenges aligning with previous research
@@ -133,39 +135,39 @@ Last Reviewed: [YYYY-MM-DD]
 - Include current month-year (e.g., `11-2025`)
 
 **Step 2: Save analysis file**
-- Location: `/Users/jvincent/Projects/writing/resources/UXR Reports/Analysis/`
+- Location: `~/Projects/writing/resources/UXR Reports/Analysis/`
 - Use Write tool to create the analysis markdown file
 
 **Step 3: Move original PDF to archive**
 After successfully creating the analysis, move the original PDF:
-- Source: `/Users/jvincent/Projects/writing/resources/UXR Reports/Reports to Review/[original_filename].pdf`
-- Destination: `/Users/jvincent/Projects/writing/resources/UXR Reports/Reviewed Reports/[original_filename].pdf`
+- Source: `~/Projects/writing/resources/UXR Reports/Reports to Review/[original_filename].pdf`
+- Destination: `~/Projects/writing/resources/UXR Reports/Reviewed Reports/[original_filename].pdf`
 - Use Bash tool with `mv` command:
   ```bash
-  mv "/Users/jvincent/Projects/writing/resources/UXR Reports/Reports to Review/[original_filename].pdf" "/Users/jvincent/Projects/writing/resources/UXR Reports/Reviewed Reports/[original_filename].pdf"
+  mv "~/Projects/writing/resources/UXR Reports/Reports to Review/[original_filename].pdf" "~/Projects/writing/resources/UXR Reports/Reviewed Reports/[original_filename].pdf"
   ```
 - Confirm the move was successful before proceeding
 - Report to user: "Original PDF moved to Reviewed Reports folder"
 
 ### 7. Update Catalog
 After creating analysis:
-1. Add entry to `/Users/jvincent/Projects/writing/resources/UXR Reports/Analysis/claude.md`
+1. Add entry to `~/Projects/writing/resources/UXR Reports/Analysis/claude.md`
 2. Include in appropriate category
 3. Update resource count and statistics
 
 ## Reference Materials
 - **Analysis Template**: See `resources/ANALYSIS_TEMPLATE.md` for detailed section structure
 - **Example Analysis**: See `resources/EXAMPLE_ANALYSIS.md` for a reference implementation
-- **UXR Catalog**: `/Users/jvincent/Projects/writing/resources/UXR Reports/Analysis/claude.md`
-- **Project Context**: `/Users/jvincent/Projects/writing/resources/CLAUDE.md`
-- **Strategic Objectives**: `/Users/jvincent/Projects/writing/resources/2026 S7/claude.md`
+- **UXR Catalog**: `~/Projects/writing/resources/UXR Reports/Analysis/claude.md`
+- **Project Context**: `~/Projects/writing/resources/CLAUDE.md`
+- **Strategic Objectives**: `~/Projects/writing/resources/2026 S7/claude.md`
 
 ## Examples
 
 ### Example 1: Basic Usage
 **User Input**:
 ```
-Analyze this report: /Users/jvincent/Projects/writing/resources/UXR Reports/Reports to Review/Admin_Journey_Research.pdf
+Analyze this report: ~/Projects/writing/resources/UXR Reports/Reports to Review/Admin_Journey_Research.pdf
 ```
 
 **Claude Actions**:
@@ -178,7 +180,7 @@ Analyze this report: /Users/jvincent/Projects/writing/resources/UXR Reports/Repo
 7. Save to Analysis folder using Write tool
 8. Move original PDF using Bash:
    ```bash
-   mv "/Users/jvincent/Projects/writing/resources/UXR Reports/Reports to Review/Admin_Journey_Research.pdf" "/Users/jvincent/Projects/writing/resources/UXR Reports/Reviewed Reports/Admin_Journey_Research.pdf"
+   mv "~/Projects/writing/resources/UXR Reports/Reports to Review/Admin_Journey_Research.pdf" "~/Projects/writing/resources/UXR Reports/Reviewed Reports/Admin_Journey_Research.pdf"
    ```
 9. Update catalog in claude.md
 10. Report completion to user
@@ -186,7 +188,7 @@ Analyze this report: /Users/jvincent/Projects/writing/resources/UXR Reports/Repo
 ### Example 2: Large Report
 **User Input**:
 ```
-Process this 150-page report: /Users/jvincent/Projects/writing/resources/UXR Reports/Reports to Review/Comprehensive_Market_Study.pdf
+Process this 150-page report: ~/Projects/writing/resources/UXR Reports/Reports to Review/Comprehensive_Market_Study.pdf
 ```
 
 **Claude Actions**:
@@ -217,7 +219,7 @@ Process this 150-page report: /Users/jvincent/Projects/writing/resources/UXR Rep
 - **No External Sharing**: Generated analyses stay within project directory structure
 
 ## Notes
-- This Skill integrates with existing project organization (see `/Users/jvincent/Projects/writing/CLAUDE.md`)
+- This Skill integrates with existing project organization (see `~/Projects/writing/CLAUDE.md`)
 - Follows established UXR report workflow: Reports to Review → Analysis → Reviewed Reports
 - Analysis structure designed for strategic planning and cross-research synthesis
 - Prometheus MCP tools handle PDF parsing and text extraction

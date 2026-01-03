@@ -1,6 +1,7 @@
 ---
 name: google-calendar-skill
 description: Manage Google Calendar - search, create, update events and answer calendar questions. Use when user wants to interact with their Google Calendar for scheduling and calendar operations.
+version: 1.0.0
 allowed-tools: [Bash, Read, Write]
 ---
 

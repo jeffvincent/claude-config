@@ -158,18 +158,19 @@ This skill uses the best of both worlds:
 
 ```
 ~/.claude/skills/things/
-├── skill.md                 # Main skill manifest
+├── Skill.md                # Main skill dispatcher
 ├── README.md               # This file
 ├── requirements.txt        # Python dependencies
 ├── lib/
-│   ├── reader.py          # Database reading (ThingsReader)
-│   ├── writer.py          # URL scheme writing (ThingsWriter)
-│   └── helpers.py         # Formatting utilities (ThingsFormatter)
-├── add-task.md            # Add task sub-skill
-├── list-today.md          # List today sub-skill
-├── list-inbox.md          # List inbox sub-skill
-├── search.md              # Search tasks sub-skill
-└── complete-task.md       # Complete task sub-skill
+│   ├── reader.py           # Database reading (ThingsReader)
+│   ├── writer.py           # URL scheme writing (ThingsWriter)
+│   └── helpers.py          # Formatting utilities (ThingsFormatter)
+└── skills/                 # Standalone sub-skills
+    ├── add-task.md         # Add task sub-skill
+    ├── list-today.md       # List today sub-skill
+    ├── list-inbox.md       # List inbox sub-skill
+    ├── search.md           # Search tasks sub-skill
+    └── complete-task.md    # Complete task sub-skill
 ```
 
 ## Available Sub-Skills
@@ -325,8 +326,8 @@ json_str = ThingsFormatter.to_json(tasks, pretty=True)
 Complete multiple tasks:
 
 ```python
-import sys
-sys.path.insert(0, '/Users/jvincent/.claude/skills/things/lib')
+import os, sys
+sys.path.insert(0, os.path.expanduser('~/.claude/skills/things/lib'))
 from reader import ThingsReader
 from writer import ThingsWriter
 
@@ -432,8 +433,8 @@ pip3 install -r requirements.txt
 
 **Solution:** Make sure sys.path is set correctly in skill prompts:
 ```python
-import sys
-sys.path.insert(0, '/Users/jvincent/.claude/skills/things/lib')
+import os, sys
+sys.path.insert(0, os.path.expanduser('~/.claude/skills/things/lib'))
 ```
 
 ## Extending the Skills

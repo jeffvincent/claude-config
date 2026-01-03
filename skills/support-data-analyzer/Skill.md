@@ -3,6 +3,7 @@ name: Support Data Analyzer
 description: Analyze customer support data (Excel/CSV with PIT, Support Tickets, CSAT) to categorize issues, prioritize by impact (P0-P3), and generate strategic markdown reports with examples and trends.
 version: 1.1.0
 dependencies: python>=3.8, openpyxl>=3.0.0, pandas>=1.3.0
+allowed-tools: [Bash, Read, Write]
 ---
 
 ## Overview
@@ -15,13 +16,15 @@ This Skill analyzes customer support feedback from multiple data sources (PIT/Ro
 
 ## When to Apply
 
-**Use this skill for ANY analysis of support data:**
+**Use this skill for analysis of structured support data in the expected format:**
 
 **Initial Analysis:**
-- User provides raw Excel/CSV files containing support data
+- User provides Excel/CSV files with PIT/Roadblocks, Support Tickets, or CSAT data columns
 - User asks to "analyze support data", "prioritize customer feedback", or "generate impact report"
 - User wants to understand top customer pain points from support channels
 - User needs to scope analysis to a specific time period (e.g., "last 60 days")
+
+**Expected data format:** Excel/CSV with columns like frustration level, MRR, ticket categories, CSAT scores
 
 **Follow-up Analysis:**
 - User asks about specific findings: "Has X issue dropped off?", "Show timeline for Y"
