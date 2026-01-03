@@ -303,3 +303,33 @@ Interviewer: Thanks for joining today. Can you tell me about...
 - If transcript contains sensitive data (credentials, PII beyond names), warn user before processing
 - Do not modify or sanitize quotes unless explicitly requested
 - Preserve all content from original transcript in the full transcript section
+
+## Related Skills (Workflow Chain)
+
+This skill is part of the **video processing workflow**:
+
+```
+┌─────────────────────┐
+│   wistia-uploader   │  → Upload video, get transcript
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────────────┐
+│  video-transcript-analyzer  │  ← YOU ARE HERE
+│  (analyze transcript)       │
+└──────────┬──────────────────┘
+           │
+     ┌─────┴─────┐
+     ▼           ▼
+┌──────────┐ ┌───────────────────────────┐
+│  video-  │ │ interview-synthesis-      │
+│  clipper │ │ updater                   │
+│ (clips)  │ │ (update synthesis docs)   │
+└──────────┘ └───────────────────────────┘
+```
+
+**Preceding skill:** `wistia-uploader` - If user has a video file, upload to Wistia first to get automatic transcription
+
+**Following skills:**
+- `video-clipper` - Create video clips from the chapter timestamps in the Topical Breakdown
+- `interview-synthesis-updater` - Automatically updates synthesis documents after this analysis completes

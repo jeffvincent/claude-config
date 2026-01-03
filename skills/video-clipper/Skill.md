@@ -567,3 +567,33 @@ See `resources/` folder for:
 - **EXAMPLES.md**: Detailed examples with full input/output
 - **REFERENCE.md**: ffmpeg command reference, timestamp formats, troubleshooting guide
 - **README.md**: User-facing documentation
+
+## Related Skills (Workflow Chain)
+
+This skill is part of the **video processing workflow**:
+
+```
+┌─────────────────────┐
+│   wistia-uploader   │  → Upload video, get transcript
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────────────┐
+│  video-transcript-analyzer  │  → Analyze transcript, get timestamps
+└──────────┬──────────────────┘
+           │
+           ▼
+┌─────────────────────┐
+│    video-clipper    │  ← YOU ARE HERE
+│   (create clips)    │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│   wistia-uploader   │  → (Optional) Upload clips to Wistia
+└─────────────────────┘
+```
+
+**Preceding skill:** `video-transcript-analyzer` - Use this first to generate chapter timestamps from a transcript
+
+**Following skill:** `wistia-uploader` - Optionally upload the created clips to Wistia for hosting

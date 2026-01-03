@@ -193,6 +193,34 @@ Please provide your Wistia API token and I'll set this up.
 3. Says: "The video is uploaded and Wistia is generating the transcript. This typically takes 1-2 minutes per minute of video."
 4. Suggests: "Once the transcript is ready, I can download it and analyze it using the video-transcript-analyzer skill. Would you like me to wait a few minutes and then fetch the transcript?"
 
+## Related Skills (Workflow Chain)
+
+This skill is part of the **video processing workflow**:
+
+```
+┌─────────────────────┐
+│   wistia-uploader   │  ← YOU ARE HERE
+│   (upload video)    │
+└──────────┬──────────┘
+           │ transcript ready
+           ▼
+┌─────────────────────────────┐
+│  video-transcript-analyzer  │  → Analyze transcript, extract themes
+└──────────┬──────────────────┘
+           │
+     ┌─────┴─────┐
+     ▼           ▼
+┌──────────┐ ┌───────────────────────────┐
+│  video-  │ │ interview-synthesis-      │
+│  clipper │ │ updater                   │
+│          │ │ (update synthesis docs)   │
+└──────────┘ └───────────────────────────┘
+```
+
+**Next steps after upload:**
+- Use `video-transcript-analyzer` to analyze the transcript once ready
+- Use `video-clipper` to create clips from timestamps
+
 ## Testing Checklist
 - [ ] `.env` file exists with valid `WISTIA_API_TOKEN`
 - [ ] Can upload video file successfully

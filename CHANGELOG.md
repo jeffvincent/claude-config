@@ -24,6 +24,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - Sub-skills moved to `skills/` subdirectory with standalone YAML frontmatter
   - Each sub-skill now independently discoverable
   - Fixed hardcoded paths in all sub-skills and README.md
+- **Improved skill clarity and delineation:**
+  - Added workflow chain documentation to `wistia-uploader`, `video-transcript-analyzer`, `video-clipper`
+  - Renamed gmail YAML name from `gmail-manager` to `gmail-skill` for consistency
+  - Renamed things YAML name to `things-3-manager` with macOS platform note
+  - Clarified support-data-analyzer trigger (specific format, not "ANY" data)
 
 ### Removed
 - Empty `plugins/config.json` (unused)

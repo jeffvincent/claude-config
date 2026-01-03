@@ -1,22 +1,29 @@
 ---
-name: things
-description: Manage your Things 3 tasks - add, search, list, and complete tasks using natural language
+name: things-3-manager
+description: "macOS only: Manage Things 3 tasks - add, search, list, and complete tasks using natural language. Requires Things 3 app installed."
 version: 2.0.0
 location: user
 allowed-tools: [Bash, Read, Write]
 ---
 
-# Things 3 Task Management
+# Things 3 Task Management (macOS Only)
 
 Manage your Things 3 tasks through natural language. This skill dispatches to focused sub-skills for specific operations.
 
+**Platform:** macOS only (Things 3 is a Mac app)
+
 ## When to Apply
 
-Use this skill when the user wants to:
-- Add/create tasks or projects
-- View today's tasks or inbox
-- Search for tasks
-- Complete/mark tasks as done
+Use this skill when:
+- User is on macOS with Things 3 installed
+- User wants to add/create tasks or projects
+- User wants to view today's tasks or inbox
+- User wants to search for tasks
+- User wants to complete/mark tasks as done
+
+**Do NOT use when:**
+- User is on Windows/Linux (Things 3 not available)
+- User mentions other task apps (Todoist, OmniFocus, etc.)
 
 ## Sub-Skills
 
