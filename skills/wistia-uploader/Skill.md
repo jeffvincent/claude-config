@@ -1,11 +1,13 @@
 ---
 name: wistia-uploader
 description: Upload video files to Wistia projects using the Data API. Use when user wants to upload videos to their Wistia account for hosting, transcription, or sharing.
+version: 1.0.0
 dependencies:
   - node >= 18
   - form-data
   - axios
   - dotenv
+allowed-tools: [Bash, Read]
 ---
 
 # Wistia Video Uploader
@@ -58,7 +60,7 @@ Before using this Skill, you need to configure your Wistia API credentials:
 
 3. **Install dependencies**:
    ```bash
-   cd /Users/jvincent/.claude/skills/wistia-uploader
+   cd ~/.claude/skills/wistia-uploader
    npm install
    ```
 
@@ -86,7 +88,7 @@ Ask the user for any missing information:
 ### Step 3: Execute Upload
 Run the upload script:
 ```bash
-cd /Users/jvincent/.claude/skills/wistia-uploader
+cd ~/.claude/skills/wistia-uploader
 node upload.js --file="/path/to/video.mp4" [--project=project_id] [--name="Video Name"] [--description="Description text"]
 ```
 
@@ -135,14 +137,14 @@ After successful upload, suggest:
 ## Examples
 
 ### Example 1: Upload with Default Settings
-**User says:** "Upload this video to Wistia: /Users/jvincent/Downloads/customer-interview.mp4"
+**User says:** "Upload this video to Wistia: ~/Downloads/customer-interview.mp4"
 
 **Claude does:**
 1. Checks `.env` for API token
 2. Validates file exists
 3. Asks: "Do you want to upload to a specific Wistia project? (Provide project ID or press Enter for account root)"
 4. User: "Press Enter"
-5. Runs: `node upload.js --file="/Users/jvincent/Downloads/customer-interview.mp4"`
+5. Runs: `node upload.js --file="~/Downloads/customer-interview.mp4"`
 6. Reports results:
    ```
    Video uploaded successfully to Wistia!
@@ -156,11 +158,11 @@ After successful upload, suggest:
    ```
 
 ### Example 2: Upload to Specific Project with Custom Name
-**User says:** "Upload /Users/jvincent/Downloads/demo.mp4 to Wistia project xyz789 and name it 'Q4 Product Demo'"
+**User says:** "Upload ~/Downloads/demo.mp4 to Wistia project xyz789 and name it 'Q4 Product Demo'"
 
 **Claude does:**
 1. Validates setup and file
-2. Runs: `node upload.js --file="/Users/jvincent/Downloads/demo.mp4" --project="xyz789" --name="Q4 Product Demo"`
+2. Runs: `node upload.js --file="~/Downloads/demo.mp4" --project="xyz789" --name="Q4 Product Demo"`
 3. Reports success with URL and transcript link
 
 ### Example 3: First Time Use (Not Configured)

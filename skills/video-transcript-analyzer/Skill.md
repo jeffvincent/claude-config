@@ -1,6 +1,8 @@
 ---
 name: Video Transcript Analyzer
 description: Analyze customer interview transcripts (SRT or plain text) to generate thematic breakdowns with summary, quotes, topics, timestamps, and full transcript. Use when given video transcripts or asked to create chapter markers.
+version: 1.0.0
+allowed-tools: [Read, Write]
 ---
 
 # Video Transcript Analyzer

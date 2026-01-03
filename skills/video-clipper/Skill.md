@@ -3,6 +3,7 @@ name: Video Clipper
 description: Create video clips from chapter timestamps using ffmpeg. Use when given a video file and timestamps/chapters to split into separate clips.
 version: 1.0.0
 dependencies: ffmpeg
+allowed-tools: [Bash, Read]
 ---
 
 # Video Clipper

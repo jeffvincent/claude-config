@@ -1,7 +1,9 @@
 ---
 name: things
 description: Manage your Things 3 tasks - add, search, list, and complete tasks using natural language
+version: 1.0.0
 location: user
+allowed-tools: [Bash, Read, Write]
 ---
 
 # Things 3 Task Management
@@ -110,8 +112,8 @@ export THINGS_AUTH_TOKEN="your-token-here"
 
 # Method 2: Save to config (permanent)
 python3 -c "
-import sys
-sys.path.insert(0, '/Users/jvincent/.claude/skills/things/lib')
+import os, sys
+sys.path.insert(0, os.path.expanduser('~/.claude/skills/things/lib'))
 from writer import ThingsWriter
 ThingsWriter.set_auth_token('your-token-here')
 "

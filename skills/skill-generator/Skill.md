@@ -2,6 +2,7 @@
 name: Skill Generator
 description: Create complete Claude Skills from a short brief, with templates and checks.
 version: 1.0.0
+allowed-tools: [Read, Write, Glob]
 ---
 
 ## Overview

@@ -122,8 +122,8 @@ For each meeting they identify, ASK:
 Only create tasks based on user's explicit answers:
 
 ```python
-import sys
-sys.path.insert(0, '/Users/jvincent/.claude/skills/things/lib')
+import os, sys
+sys.path.insert(0, os.path.expanduser('~/.claude/skills/things/lib'))
 from writer import ThingsWriter
 
 # For meetings needing TIME SCHEDULED:
@@ -152,8 +152,8 @@ ThingsWriter.add_task(
 2. **Get existing tasks from Things:**
    ```python
    python3 -c "
-   import sys
-   sys.path.insert(0, '/Users/jvincent/.claude/skills/things/lib')
+   import os, sys
+   sys.path.insert(0, os.path.expanduser('~/.claude/skills/things/lib'))
    from reader import ThingsReader
    print(ThingsReader.get_today())
    print(ThingsReader.search(query='', status='incomplete'))

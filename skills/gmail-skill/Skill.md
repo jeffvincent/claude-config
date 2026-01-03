@@ -1,6 +1,7 @@
 ---
 name: gmail-manager
 description: Manage Gmail - send, read, search emails, manage labels and drafts. Use when user wants to interact with their Gmail account for email operations.
+version: 1.0.0
 allowed-tools: [Bash, Read, Write]
 ---
 

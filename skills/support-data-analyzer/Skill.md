@@ -3,6 +3,7 @@ name: Support Data Analyzer
 description: Analyze customer support data (Excel/CSV with PIT, Support Tickets, CSAT) to categorize issues, prioritize by impact (P0-P3), and generate strategic markdown reports with examples and trends.
 version: 1.1.0
 dependencies: python>=3.8, openpyxl>=3.0.0, pandas>=1.3.0
+allowed-tools: [Bash, Read, Write]
 ---
 
 ## Overview
