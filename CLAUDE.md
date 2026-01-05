@@ -11,6 +11,41 @@ This repository contains:
 - **Plugins**: Plugin configurations
 - **Settings**: Claude Code configuration
 
+## Content Notes Repository
+
+The user also has a separate git repository for Content Notes at `/Users/jvincent/Projects/Personal/Content Notes/`:
+- **Repository**: https://github.com/jeffvincent/content-notes
+- **Purpose**: Knowledge base for extracting insights from podcasts and interviews
+- **Contents**: Source documents, synthesis notes, transcripts, and automation scripts
+
+### Auto-Commit Workflow for Content Notes
+
+**IMPORTANT**: After processing each new podcast/interview (via `/process-media` command or manual workflow), automatically commit and push the new content:
+
+```bash
+cd "/Users/jvincent/Projects/Personal/Content Notes"
+git add .
+git commit -m "Add analysis for [Guest Name] - [Topic]
+
+New content:
+- Source document with interview analysis
+- Transcript (SRT format)
+- Updated synthesis notes: [Theme 1], [Theme 2], [Theme 3]
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+git push
+```
+
+**When to commit to Content Notes:**
+1. After completing `/process-media` workflow (new source document created)
+2. After creating new synthesis notes
+3. After updating existing synthesis notes with new examples
+4. After script improvements or documentation updates
+
+**DO NOT wait for user to request commit** - proactively commit after each completed analysis.
+
 ## Important: Secrets Management
 
 All credentials are stored in the `secrets/` directory with this structure:
