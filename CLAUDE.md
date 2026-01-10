@@ -11,6 +11,39 @@ This repository contains:
 - **Plugins**: Plugin configurations
 - **Settings**: Claude Code configuration
 
+## Task Management - CRITICAL
+
+**ALWAYS use Things 3 for task management, NOT TodoWrite.**
+
+When creating action items, todos, or tasks:
+1. **Use the `things` skill** to add tasks to Things 3
+2. Include appropriate deadline dates (YYYY-MM-DD format)
+3. Add relevant tags (e.g., "work", "grove", "meeting")
+4. Add notes with context when helpful
+
+**DO NOT use TodoWrite tool** - it's an internal conversation tracker, not the user's actual task management system.
+
+### When to Create Tasks in Things 3:
+- Action items from meetings (especially via `/log-meeting` command)
+- Project planning tasks with specific due dates
+- Follow-up items from strategic discussions
+- User explicitly requests tasks to be created
+- User says "implement action items" or "create todos"
+
+### Example Usage:
+```python
+import os, sys
+sys.path.insert(0, os.path.expanduser('~/.claude/skills/things/lib'))
+from writer import ThingsWriter
+
+ThingsWriter.add_task(
+    title="Task title",
+    notes="Additional context",
+    deadline="2026-01-15",
+    tags=["work", "grove"]
+)
+```
+
 ## Content Notes Repository
 
 The user also has a separate git repository for Content Notes at `/Users/jvincent/Projects/Personal/Content Notes/`:
