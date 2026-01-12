@@ -73,14 +73,87 @@ See `README.md` for installation and configuration instructions.
 cd ~/.claude/skills/things && pip3 install -r requirements.txt
 ```
 
+## Identifying Discrete Tasks
+
+**IMPORTANT:** Not everything that looks like an action item should become a Things task. Apply these filters:
+
+### ✅ Create Tasks For
+
+**Discrete actions with clear completion:**
+- "Deliver plan by Jan 17"
+- "Schedule meeting with X"
+- "Send email to Y about Z"
+- "Review document and provide feedback"
+- "Update spreadsheet with Q4 data"
+- "Create presentation for board meeting"
+
+**Characteristics of real tasks:**
+- Has a verb + specific object
+- Can be marked "done" at a point in time
+- Usually has a deadline or timeframe
+- Represents single deliverable or interaction
+
+### ❌ Do NOT Create Tasks For
+
+**Strategic mindsets / ongoing approaches:**
+- "Own entire product mentality"
+- "Feel pain when platform inconsistent"
+- "Think about cross-product-line value"
+- "Be more responsive"
+- "Pick more fights"
+
+**Framing guidance / communication style:**
+- "Frame work using X framing"
+- "Apply Y test measurement"
+- "Use Z terminology when discussing"
+- "Position work as competitive necessity"
+
+**Conceptual frameworks:**
+- "Prioritize by user exposure"
+- "Focus on crawl-walk-run"
+- "Consider frequency × breadth"
+
+**Why these aren't tasks:**
+- No discrete completion point
+- Ongoing mental models or approaches
+- How to think/communicate, not what to do
+- Can't check off as "done"
+
+### Examples from Real Meetings
+
+**From "Jeff - deliver these 7 things":**
+
+| Item | Real Task? | Reasoning |
+|------|-----------|-----------|
+| "Deliver plan by Jan 17" | ✅ Yes | Discrete deliverable with deadline |
+| "Frame all work using X framing" | ❌ No | Communication style, not action |
+| "Apply Jeff Bell Test measurement" | ❌ No | Ongoing evaluation approach |
+| "Own entire product mentality" | ❌ No | Mindset shift, not discrete action |
+| "Schedule 3-hour working session" | ✅ Yes | Specific action with completion |
+| "Prioritize by user exposure" | ❌ No | Prioritization framework |
+| "Figure out skeleton key scope" | ⚠️ Maybe | Could be discrete if time-boxed research task |
+
+### When Uncertain
+
+Ask yourself:
+1. **Can I mark this "done" at a specific moment?** If no → not a task
+2. **Does this have a verb + deliverable?** If no → not a task
+3. **Is this how to think vs what to do?** If "how to think" → not a task
+4. **Would completing this once be sufficient?** If no (ongoing) → not a task
+
+**Exceptions:**
+- "Figure out X" CAN be a task if it's time-boxed research with deliverable (e.g., "Spend 2 hours figuring out skeleton key scope, write up findings")
+- "Review X and decide Y" CAN be a task (discrete decision point)
+
 ## Dispatching
 
 When user requests Things 3 operations:
 
 1. **Identify intent** from natural language
-2. **Read the appropriate sub-skill** for detailed instructions
-3. **Execute** using the library functions
-4. **Report results** clearly to user
+2. **Filter for discrete tasks** (see "Identifying Discrete Tasks" above)
+3. **Read the appropriate sub-skill** for detailed instructions
+4. **Execute** using the library functions
+5. **Report results** clearly to user
 
 ### Intent Mapping
 
