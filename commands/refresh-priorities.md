@@ -13,8 +13,8 @@ You are helping Jeff refresh his leadership priorities document based on recent 
 1. **Read current priorities.md** to understand what's currently documented
 
 2. **Analyze recent Grove activity** (last 90 days):
-   - Read monthly grove notes files (YYYY-MM.md format) covering the last 90 days
-     - Example: If today is 2026-01-28, read 2026-01.md, 2025-12.md, and 2025-11.md
+   - Read monthly grove notes files (grove-notes/YYYY-MM.md format) covering the last 90 days
+     - Example: If today is 2026-01-28, read grove-notes/2026-01.md, grove-notes/2025-12.md, and grove-notes/2025-11.md
      - Focus on entries from the last 90 days across these files
    - Sample 5-7 person files from `people/` directory, focusing on recent notes
    - Review `resources/PM-Coaching.md` for recent coaching patterns
