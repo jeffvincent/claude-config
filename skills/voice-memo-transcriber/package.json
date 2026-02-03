@@ -1,0 +1,36 @@
+{
+  "name": "voice-memo-transcriber",
+  "version": "1.0.0",
+  "description": "Transcribe voice memos to text using Whisper (local processing)",
+  "systemDependencies": {
+    "ffmpeg": "Required for audio format conversion",
+    "pipx": "Required for installing Python applications",
+    "openai-whisper": "Required for speech-to-text transcription (installed via pipx)"
+  },
+  "whisperModels": {
+    "tiny": "~75MB, fastest, lowest accuracy",
+    "base": "~140MB, good balance (default)",
+    "small": "~460MB, better accuracy",
+    "medium": "~1.5GB, high accuracy",
+    "large": "~3GB, highest accuracy"
+  },
+  "supportedFormats": [
+    ".m4a",
+    ".mp3",
+    ".mov",
+    ".mp4",
+    ".wav",
+    ".aac",
+    ".flac",
+    ".ogg",
+    ".webm"
+  ],
+  "outputFormats": [
+    ".txt (plain text transcript)",
+    ".srt (subtitles with timestamps)",
+    ".mp3 (converted audio if needed)"
+  ],
+  "privacy": "All processing happens locally. No data sent to external services.",
+  "author": "Generated with Claude Code",
+  "license": "MIT"
+}
