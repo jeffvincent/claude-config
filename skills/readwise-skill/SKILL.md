@@ -16,16 +16,23 @@ This skill imports books, articles, podcasts, and other content from your Readwi
 
 ## When to Apply
 Use this skill when:
-- User wants to import a specific book, article, or podcast from Readwise
-- User says "import [item name] from Readwise"
-- User asks to "pull in highlights from [item]"
+- User wants to **only import** without analysis (rare)
+- User explicitly says "just import" or "import only"
 - User wants to sync/update existing Readwise imports with new highlights
-- User asks to search their Readwise library
+- User asks to search their Readwise library without importing
+
+**IMPORTANT**: Most users want to analyze content after importing. If user says:
+- "analyze [item] from Readwise"
+- "generate insights from [item]"
+- "what themes are in [item]?"
+
+Use `readwise-content-analyzer` skill instead - it will handle BOTH import and analysis automatically.
 
 Do NOT use this skill for:
 - Bulk importing entire Readwise library (use on-demand only)
 - Reading Readwise content without importing to Content Notes
 - Managing Readwise account settings
+- Analysis requests (use readwise-content-analyzer instead)
 
 ## Inputs
 1. **Item identifier** - Either:

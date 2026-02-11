@@ -15,19 +15,24 @@ This skill analyzes imported Readwise source documents to extract themes, genera
 
 ## When to Apply
 Use this skill:
-- After importing content with `readwise-skill`
-- When user asks to "analyze" or "generate insights" from a Readwise source
-- When user wants to identify themes in their highlights
+- When user says "analyze [book/article name] from Readwise"
+- When user asks to "generate insights" from a Readwise item
+- When user wants to identify themes in their Readwise highlights
 - When user wants to update synthesis documents with new examples
 - When user says "what themes are in [book/article name]?"
+- After importing content with `readwise-skill` (if already imported)
+
+**IMPORTANT**: This skill handles BOTH import and analysis in a single workflow. If the content isn't already imported, it will import it first, then analyze it.
 
 Do NOT use this skill for:
-- Initial import from Readwise (use `readwise-skill` instead)
-- General reading or browsing content
+- Just browsing/searching Readwise (use `readwise-skill` for search only)
 - Analyzing non-Readwise source documents
 
 ## Inputs
-1. **Source document path** - Path to Readwise source document in `/sources/` directory
+1. **Item identifier** - Either:
+   - Item title/name (e.g., "The Mom Test", "Atomic Habits")
+   - Author name (e.g., "Tim Urban")
+   - Existing source document path (if already imported)
 2. **Analysis depth** (optional) - Quick overview vs. deep analysis
 
 ## Outputs
@@ -38,6 +43,39 @@ Do NOT use this skill for:
 - Git commit (automatic)
 
 ## Instructions for Claude
+
+### Step 0: Check if Import is Needed (CRITICAL)
+Before analyzing, determine if the content needs to be imported first:
+
+**A. If user provides a title/name (e.g., "analyze 'The Mom Test' from Readwise")**:
+1. Search for existing source document:
+   ```
+   Glob: /Users/jvincent/Projects/Personal/Content Notes/sources/*_Readwise.md
+   ```
+2. Check if any filename matches the title (case-insensitive, fuzzy match)
+3. **If NOT found**: Import first using readwise-skill
+   - Search Readwise library: `cd ~/.claude/skills/readwise-skill/scripts && python3 search.py --query "the mom test"`
+   - Show results to user for confirmation
+   - Import: `python3 import_item.py --book-id [id] --output-dir "/Users/jvincent/Projects/Personal/Content Notes/sources"`
+   - Commit the import to git
+   - Then proceed to analysis (Step 1 below)
+4. **If found**: Proceed directly to analysis (Step 1 below)
+
+**B. If user provides a file path**: Skip to Step 1 (already imported)
+
+**Example**:
+```
+User: "analyze 'the mom test' from readwise"
+
+Claude:
+1. Searches sources/ directory - not found
+2. Searches Readwise: python3 search.py --query "the mom test"
+3. Shows: "Found: The Mom Test by Rob Fitzpatrick (23 highlights)"
+4. User confirms (or auto-confirm if only one match)
+5. Imports: python3 import_item.py --book-id 12345 ...
+6. Reports: "✅ Imported The Mom Test with 23 highlights"
+7. Proceeds to analysis below
+```
 
 ### Step 1: Read the Source Document
 Use the Read tool to load the Readwise source document:
@@ -307,27 +345,41 @@ Provide final summary:
 
 ## Examples
 
-### Example 1: Analyze a Book
-**User**: "Analyze The Mom Test highlights"
+### Example 1: Analyze and Import (Combined Workflow)
+**User**: "analyze 'the mom test' from readwise"
 
 **Claude**:
-1. Reads: `sources/2026-02-10_Rob-Fitzpatrick_The-Mom-Test_Readwise.md`
-2. Analyzes 23 highlights
-3. Identifies themes:
+1. Searches sources/ directory - not found
+2. Imports from Readwise:
+   - Searches: `python3 search.py --query "the mom test"`
+   - Shows: "Found: The Mom Test by Rob Fitzpatrick (23 highlights)"
+   - Imports: Creates `sources/2026-02-10_Rob-Fitzpatrick_The-Mom-Test_Readwise.md`
+   - Commits import
+3. Analyzes 23 highlights
+4. Identifies themes:
    - Customer Discovery
    - Asking Better Questions
    - Validation vs. Compliments
-4. Finds connections:
+5. Finds connections:
    - Relates to [[Curiosity - Deep Understanding]]
    - Relates to [[Quality Obsession]]
-5. Presents analysis
-6. User approves updates
-7. Adds 5 new examples to existing syntheses
-8. Updates source document with analysis
-9. Commits to git
+6. Presents analysis
+7. User approves updates
+8. Adds 5 new examples to existing syntheses
+9. Updates source document with analysis
+10. Commits analysis changes
 
-### Example 2: Analyze an Article with URL
-**User**: "Analyze that Tim Urban article I imported"
+### Example 2: Analyze Already Imported Content
+**User**: "Analyze The Mom Test highlights"
+
+**Claude**:
+1. Searches sources/ and finds: `sources/2026-02-10_Rob-Fitzpatrick_The-Mom-Test_Readwise.md`
+2. Skips import (already exists)
+3. Proceeds directly to analysis
+4. [Same as steps 3-10 above]
+
+### Example 3: Analyze an Article with URL
+**User**: "Analyze that Tim Urban article from Readwise"
 
 **Claude**:
 1. Reads: `sources/2026-02-10_Tim-Urban_AI-Revolution_Readwise.md`
@@ -343,8 +395,8 @@ Provide final summary:
 8. Updates source with analysis
 9. Commits to git
 
-### Example 3: Quick Theme Overview
-**User**: "What themes are in my Atomic Habits highlights?"
+### Example 4: Quick Theme Overview
+**User**: "What themes are in my Atomic Habits highlights from Readwise?"
 
 **Claude**:
 1. Reads source document
