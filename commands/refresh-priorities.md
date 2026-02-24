@@ -28,15 +28,18 @@ You are helping Jeff refresh his leadership priorities document based on recent 
    - What energizes/drains have changed
 
 4. **Generate updated priorities.md:**
-   - Replace the "Core Priorities" section with current top 10-12 priorities
+   - Replace the "Core Priorities" section (max 5 items):
+     - Specific projects and initiatives with clear timelines
+     - Examples: "Foundational Data Fixes project", "Data Platform vision"
+     - Focus on what's time-bound and project-focused
+   - Replace the "Evergreen Priorities" section (max 5 items):
+     - Ongoing leadership themes and development areas that persist over time
+     - Examples: "Making platform work like a platform", "Understanding how AI changes CRM"
+     - Focus on recurring patterns, coaching themes, and continuous concerns
    - Update "Recurring Concerns" based on what's actually recurring recently
    - Update "What Energizes Me" section
    - Update "Last Updated" date to today
-   - Add a "What Changed Since Last Update" section at the top showing:
-     - Date range analyzed
-     - New priorities added
-     - Priorities that dropped off or de-emphasized
-     - Significant shifts in focus
+   - **Note:** Do NOT add a "What Changed Since Last Update" section to the file (keep that summary for Jeff's review only)
 
 5. **Present the changes** to Jeff:
    - Show a summary of what changed
@@ -46,9 +49,13 @@ You are helping Jeff refresh his leadership priorities document based on recent 
 ## Important Guidelines
 
 - **Replace, don't just append** - if something isn't showing up in the last 90 days, it shouldn't be in the current priorities
+- **Distinguish Core vs Evergreen carefully**:
+  - Core = Specific projects/initiatives with deliverables (time-bound)
+  - Evergreen = Ongoing leadership patterns that persist across months (timeless themes)
+- **Max 5 items per section** - be ruthless about prioritization
 - **Be specific, not generic** - use actual examples and quotes from recent notes
 - **Keep it jargon-free** - use plain language, not corporate speak
-- **Stay concise** - each priority should be 2-3 sentences max
+- **Stay concise** - Core priorities can be brief (1 line), Evergreen can be 2-3 sentences with context
 - **Focus on patterns** - what comes up repeatedly, not one-off mentions
 - **Maintain the energizing/honest tone** - this is a personal document, not a performance review
 
@@ -59,14 +66,19 @@ After analysis, show Jeff:
 ```
 ## Priorities Refresh Analysis (Last 90 Days: YYYY-MM-DD to YYYY-MM-DD)
 
-### What's New
-- [New priorities that emerged]
+### Core Priorities (max 5)
+**What's New:** [New project-focused priorities]
+**What Dropped Off:** [Projects completed or deprioritized]
+**What Shifted:** [Projects that changed scope or emphasis]
 
-### What Dropped Off
-- [Priorities that are no longer showing up]
+### Evergreen Priorities (max 5)
+**What's New:** [New recurring themes that emerged]
+**What Dropped Off:** [Themes that are no longer recurring]
+**What Shifted:** [Themes that changed emphasis or framing]
 
-### What Shifted
-- [Priorities that changed emphasis or framing]
+### Other Sections
+- Recurring Concerns: [Key changes]
+- What Energizes Me: [Key changes]
 
 ### Summary
 [2-3 sentence summary of how focus has evolved]
