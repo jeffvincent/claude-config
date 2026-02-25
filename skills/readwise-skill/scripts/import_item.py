@@ -50,8 +50,14 @@ def format_highlight_location(highlight):
     else:
         return f"Location {location}"
 
-def generate_markdown(book, highlights):
-    """Generate markdown content for the source document."""
+def generate_markdown(book, highlights, article_content=None):
+    """Generate markdown content for the source document.
+
+    Args:
+        book: Book/article metadata from Readwise
+        highlights: List of highlights
+        article_content: Optional full article text (for articles with URLs)
+    """
     # Extract book metadata
     title = book.get('title', 'Untitled')
     author = book.get('author', 'Unknown')
@@ -98,6 +104,17 @@ def generate_markdown(book, highlights):
         lines.append(document_note)
         lines.append("")
 
+    # Full article content (if provided)
+    if article_content:
+        lines.append("## Full Article Content\n")
+        lines.append(article_content)
+        lines.append("")
+    elif source_url and category == 'articles':
+        # Placeholder for article content to be filled during analysis
+        lines.append("## Full Article Content\n")
+        lines.append(f"_To be fetched from: {source_url}_")
+        lines.append(f"_(This will be populated during analysis)_\n")
+
     # Highlights section
     lines.append("## Your Highlights\n")
 
@@ -142,8 +159,15 @@ def generate_markdown(book, highlights):
 
     return '\n'.join(lines)
 
-def import_book(client, book_id, output_dir):
-    """Import a book from Readwise."""
+def import_book(client, book_id, output_dir, article_content=None):
+    """Import a book from Readwise.
+
+    Args:
+        client: ReadwiseClient instance
+        book_id: Readwise book ID
+        output_dir: Output directory for source document
+        article_content: Optional full article text (for articles)
+    """
     # Get book details
     book = get_book_details(client, book_id)
 
@@ -159,6 +183,8 @@ def import_book(client, book_id, output_dir):
     # Generate filename
     title = book.get('title', 'Untitled')
     author = book.get('author', 'Unknown')
+    category = book.get('category', 'unknown')
+    source_url = book.get('source_url', '')
     today = datetime.now().strftime('%Y-%m-%d')
 
     author_safe = sanitize_filename(author.split(',')[0].strip())  # Take first author
@@ -167,7 +193,7 @@ def import_book(client, book_id, output_dir):
     filename = f"{today}_{author_safe}_{title_safe}_Readwise.md"
 
     # Generate markdown content
-    content = generate_markdown(book, highlights)
+    content = generate_markdown(book, highlights, article_content)
 
     # Write to file
     output_path = Path(output_dir) / filename
@@ -182,7 +208,8 @@ def import_book(client, book_id, output_dir):
         "filepath": str(output_path),
         "title": title,
         "author": author,
-        "category": book.get('category'),
+        "category": category,
+        "source_url": source_url,
         "num_highlights": len(highlights),
         "book_id": book_id
     }

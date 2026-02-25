@@ -44,37 +44,57 @@ Do NOT use this skill for:
 
 ## Instructions for Claude
 
-### Step 0: Check if Import is Needed (CRITICAL)
-Before analyzing, determine if the content needs to be imported first:
+### Step 0: Check if Import is Needed and Fetch Article Content (CRITICAL)
+Before analyzing, determine if the content needs to be imported first, and if it's an article, fetch the full content:
 
-**A. If user provides a title/name (e.g., "analyze 'The Mom Test' from Readwise")**:
-1. Search for existing source document:
+**A. If user provides a title/name (e.g., "analyze 'machines loving grace' from Readwise")**:
+1. Search for existing source document in sources/ directory:
    ```
    Glob: /Users/jvincent/Projects/Personal/Content Notes/sources/*_Readwise.md
    ```
 2. Check if any filename matches the title (case-insensitive, fuzzy match)
-3. **If NOT found**: Import first using readwise-skill
-   - Search Readwise library: `cd ~/.claude/skills/readwise-skill/scripts && python3 search.py --query "the mom test"`
+3. **If NOT found locally**: Search local Readwise index and import
+   - Search index: `cd ~/.claude/skills/readwise-skill/scripts && python3 search.py --query "machines loving"`
    - Show results to user for confirmation
-   - Import: `python3 import_item.py --book-id [id] --output-dir "/Users/jvincent/Projects/Personal/Content Notes/sources"`
+   - Get book_id and source_url from search results
+   - **If article with URL**: Use WebFetch to get full article content
+   - Import with content: `python3 import_item.py --book-id [id] --output-dir ".../sources"`
    - Commit the import to git
    - Then proceed to analysis (Step 1 below)
-4. **If found**: Proceed directly to analysis (Step 1 below)
+4. **If found locally**: Check if article needs content added
+   - Read the source document
+   - If "Full Article Content" section says "_To be fetched from..._"
+   - Use WebFetch to get article content
+   - Edit document to add full content
+   - Commit the update
+   - Then proceed to analysis (Step 1 below)
 
 **B. If user provides a file path**: Skip to Step 1 (already imported)
 
-**Example**:
+**Example - New Article**:
 ```
-User: "analyze 'the mom test' from readwise"
+User: "analyze 'machines of loving grace' from readwise"
 
 Claude:
 1. Searches sources/ directory - not found
-2. Searches Readwise: python3 search.py --query "the mom test"
-3. Shows: "Found: The Mom Test by Rob Fitzpatrick (23 highlights)"
-4. User confirms (or auto-confirm if only one match)
-5. Imports: python3 import_item.py --book-id 12345 ...
-6. Reports: "✅ Imported The Mom Test with 23 highlights"
-7. Proceeds to analysis below
+2. Searches local index: python3 search.py --query "machines loving"
+3. Shows: "Found: Machines of Loving Grace by Dario Amodei (15 highlights, URL: https://...)"
+4. User confirms
+5. WebFetch: Retrieves full article from URL
+6. Imports: python3 import_item.py --book-id 12345 ... (with article content)
+7. Creates: sources/2026-02-25_Dario-Amodei_Machines-Loving-Grace_Readwise.md
+8. Commits import
+9. Proceeds to analysis with FULL article text + 15 highlights
+```
+
+**Example - Already Imported**:
+```
+User: "analyze machines of loving grace"
+
+Claude:
+1. Finds: sources/2026-02-25_Dario-Amodei_Machines-Loving-Grace_Readwise.md
+2. Reads file - sees full article content already present
+3. Proceeds directly to analysis
 ```
 
 ### Step 1: Read the Source Document
