@@ -224,14 +224,12 @@ The Knowledge System includes these slash commands (in `.claude/commands/`):
 
 **People Management:**
 - `/log-meeting [transcript or video]` - Comprehensive meeting logging
-- `/grove-note [note]` - Add timestamped note to management journal
-- `/add-feedback [PersonName]: [content]` - Quick feedback with auto-tagging
+- `/note [content]` - Add timestamped note to management journal
+- `/feedback [PersonName]: [content]` - Quick feedback with auto-tagging
 - `/generate-performance-review [name] [cycle]` - GPS-aligned performance review
 
 **Knowledge Development:**
-- `/create-synthesis` - Create new cross-domain synthesis document
-- `/new-thinking-project` - Start new strategic thinking project
-- `/process-readwise-article` - Process Readwise article into notes
+- `/think [topic]` - Create thinking project with auto-synthesized context from across Knowledge System
 - `/weekly-review` - Weekly knowledge system review
 
 **Skills Available:**
@@ -242,12 +240,12 @@ The Knowledge System includes these slash commands (in `.claude/commands/`):
 - `performance-review-generator` - Generate GPS-based reviews
 - `promotion-proposal-reviewer` - Review promotion proposals
 
-**When creating cross-domain syntheses**:
-1. Identify theme appearing in multiple domains
-2. Create synthesis document in appropriate Obsidian syntheses/ subdirectory
-3. Link to sources using file:// paths
-4. Document applications to current work
-5. Update synthesis-map.md with connections
+**How /think works**:
+1. Give it a topic for a potential memo/presentation
+2. Automatically searches across all Knowledge System content (people files, conversations, notes, syntheses, Readwise, resources)
+3. Synthesizes findings on-the-fly: extracts quotes, identifies themes, finds patterns across source types
+4. Creates pre-populated thinking project with evidence organized, quotes ready to use, and suggested narrative angles
+5. Result: Workspace ready for developing memo idea over 1-2 weeks before formal drafting
 
 ### Git and Privacy Controls
 
