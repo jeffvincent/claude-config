@@ -79,6 +79,205 @@ git push
 
 **DO NOT wait for user to request commit** - proactively commit after each completed analysis.
 
+## Knowledge System Architecture
+
+The user's knowledge management system uses a three-layer architecture designed to enable cross-domain insight generation and inform work outputs.
+
+### Three-Layer Architecture
+
+**Layer 1: SOURCE REPOSITORIES** (Version-controlled, domain-specific)
+- Single source of truth for raw content
+- Each domain has its own repository with appropriate git/privacy controls
+
+**Layer 2: SYNTHESIS ENGINE** (Obsidian Vault at `~/Projects/Knowledge System/`)
+- Cross-domain thematic insights
+- Combines personal learning with work data
+- Active thinking and project development space
+
+**Layer 3: OUTPUT GENERATION** (Writing repo + presentations)
+- Polished deliverables informed by syntheses
+- Final work products
+
+### Directory Structure
+
+```
+~/Projects/Personal/
+└── Content Notes/              [GIT] Personal learning (podcasts, books)
+    ├── sources/               Podcast/interview analyses
+    ├── syntheses/             Original thematic insights (17 documents)
+    └── transcripts/           SRT files
+
+~/Projects/Work/
+├── Writing/                    [GIT] Strategic documents and presentations
+├── Competitive-Intel/          [LOCAL] Competitive intelligence
+├── Customer-Research/          [LOCAL] Customer interviews and analyses
+├── Product-Feedback/           [LOCAL] Support data and insights
+└── FDF-Progress-Matrix/        [LOCAL] Foundational data fixes tracking
+
+~/Projects/Knowledge System/    [GIT + OBSIDIAN VAULT] Integrated knowledge & people management
+├── people/                     33 person files (direct reports & colleagues)
+├── conversations/              Meeting transcripts and recordings
+├── notes/
+│   ├── management-journal/     Monthly leadership notes (YYYY-MM.md)
+│   ├── hex-notes/              PLT hex meeting notes
+│   ├── strategic-projects/     Project-specific notes & running logs
+│   ├── customer-research/      Customer interview notes
+│   ├── ai-automation/          AI automation research
+│   ├── leadership/             Leadership observations
+│   └── platform-architecture/  Technical architecture patterns
+├── resources/
+│   ├── global-resources/       GPS framework, performance expectations
+│   ├── exec-assistant/         Weekly briefing system
+│   ├── reviews/                Performance review templates
+│   ├── promotions/             Promotion resources
+│   ├── PM-Coaching.md          Coaching insights repository
+│   ├── AI-CRM-Disruption.md    Strategic signal tracker
+│   └── people-list.md          Canonical name reference
+├── syntheses/                  Cross-domain thematic insights
+│   ├── leadership/             4 syntheses from Content Notes
+│   ├── business-strategy/      6 syntheses + cross-domain frameworks
+│   ├── ai-trends/              4 syntheses on AI/knowledge work
+│   └── life-philosophy/        3 syntheses on curiosity/relationships
+├── active-projects/            Current thinking projects
+├── Readwise/                   Auto-synced highlights (900+ items)
+├── _inbox/                     Quick capture
+├── _daily/                     Daily notes and reflections
+├── scripts/                    Node.js automation (Wistia, person files)
+└── .claude/                    Commands and skills
+    ├── commands/               9 slash commands (/log-meeting, /grove-note, etc.)
+    └── skills/                 9 specialized skills
+```
+
+### Information Flow
+
+```
+SOURCES (Layer 1 repos)
+  ↓
+SYNTHESES (Obsidian vault)
+  ↓
+OUTPUTS (Writing repo)
+```
+
+**Sources** = Raw content in domain-specific repositories
+**Syntheses** = Cross-domain insights that connect personal learning with work data
+**Outputs** = Polished memos, presentations, strategy documents
+
+### Key Workflows
+
+**Content Notes → Syntheses**:
+- New podcast analysis added to Content Notes sources
+- Themes identified and added to Content Notes syntheses
+- Cross-domain connections identified and documented in Obsidian syntheses
+
+**Work Data → Syntheses**:
+- Customer interviews, product feedback, competitive intel collected in Work repos
+- Patterns identified that connect to personal learning themes
+- Cross-domain syntheses created in Obsidian (e.g., Product Excellence Framework)
+
+**Syntheses → Outputs**:
+- Active projects developed in Obsidian's active-projects/ folder
+- Draw from multiple syntheses for depth
+- Final polished work moved to Writing repo
+
+### Cross-Domain Synthesis Examples
+
+**Product Excellence Framework**:
+- Combines "Quality Obsession" + "Focus Strategy" (Content Notes)
+- With customer research, product feedback, competitive intel (Work)
+- Creates actionable framework for product strategy
+
+**AI-Native Leadership**:
+- Combines "Judgment in AI Era" (Content Notes)
+- With PM coaching insights (Knowledge System), Agentic Automation Strategy (Work)
+- Creates leadership framework for AI transformation
+
+**Customer-Centric Strategy**:
+- Combines "Deep Relationships" + "Curiosity" (Content Notes)
+- With customer interviews, product feedback (Work)
+- Creates customer research-driven strategy process
+
+### Using the System
+
+**When adding new content to Content Notes**:
+1. Process media via `/process-media` (automated)
+2. New source document created in Content Notes
+3. Syntheses updated in Content Notes repo
+4. Review for cross-domain connections → add to Obsidian syntheses
+
+**When doing work projects**:
+1. Check relevant Knowledge System syntheses for insights
+2. Develop thinking in active-projects/ folder
+3. Reference sources from both personal learning and work data
+4. Move final output to Writing repo when complete
+
+**When logging meetings** (via `/log-meeting`):
+1. Creates Conversation file in conversations/ with summary + transcript
+2. Updates person file in people/ with key points and feedback
+3. Extracts strategic insights to notes/management-journal/
+4. Detects and updates running logs in notes/strategic-projects/
+5. Suggests new notes for learnings (via note-creator skill)
+6. Offers to create Things 3 tasks for action items
+
+### Knowledge System Commands
+
+The Knowledge System includes these slash commands (in `.claude/commands/`):
+
+**People Management:**
+- `/log-meeting [transcript or video]` - Comprehensive meeting logging
+- `/grove-note [note]` - Add timestamped note to management journal
+- `/add-feedback [PersonName]: [content]` - Quick feedback with auto-tagging
+- `/generate-performance-review [name] [cycle]` - GPS-aligned performance review
+
+**Knowledge Development:**
+- `/create-synthesis` - Create new cross-domain synthesis document
+- `/new-thinking-project` - Start new strategic thinking project
+- `/process-readwise-article` - Process Readwise article into notes
+- `/weekly-review` - Weekly knowledge system review
+
+**Skills Available:**
+- `grove-action-manager` - Things 3 integration for action items
+- `note-creator` - Create structured notes in Knowledge System
+- `active-project-manager` - Update strategic thinking projects
+- `name-validator` - Validate names against people-list.md
+- `performance-review-generator` - Generate GPS-based reviews
+- `promotion-proposal-reviewer` - Review promotion proposals
+
+**When creating cross-domain syntheses**:
+1. Identify theme appearing in multiple domains
+2. Create synthesis document in appropriate Obsidian syntheses/ subdirectory
+3. Link to sources using file:// paths
+4. Document applications to current work
+5. Update synthesis-map.md with connections
+
+### Git and Privacy Controls
+
+**Git-tracked repositories** (public or private):
+- Content Notes (public) - https://github.com/jeffvincent/content-notes
+- Knowledge System (private) - https://github.com/jeffvincent/knowledge-system
+- Writing (private) - https://github.com/jeffvincent/hs-writing
+
+**Archived repositories**:
+- Grove (private) - Integrated into Knowledge System on 2026-03-18
+  - Backup: `/Users/jvincent/Backups/Grove-backup-2026-03-18.tar.gz`
+  - Content migrated: people/, conversations/, resources/, management journal
+
+**Local-only** (sensitive data):
+- Competitive-Intel (competitive data)
+- Customer-Research (customer privacy)
+- Product-Feedback (customer data)
+- FDF-Progress-Matrix (internal tracking)
+
+**Knowledge System** (Obsidian Vault):
+- Now git-tracked as private repository
+- Contains: people files, conversations, management journal, syntheses, resources
+- Includes sensitive performance data (private repo)
+
+### System Documentation
+
+All system documentation lives in `~/Projects/Knowledge System/meta/`:
+- **source-index.md**: Complete guide to all source repositories
+- **synthesis-map.md**: Visual map of cross-domain synthesis opportunities
+
 ## Important: Secrets Management
 
 All credentials are stored in the `secrets/` directory with this structure:
