@@ -109,8 +109,6 @@ The user's knowledge management system uses a three-layer architecture designed 
 
 ~/Projects/Work/
 ├── Writing/                    [GIT] Strategic documents and presentations
-├── Competitive-Intel/          [LOCAL] Competitive intelligence
-├── Customer-Research/          [LOCAL] Customer interviews and analyses
 ├── Product-Feedback/           [LOCAL] Support data and insights
 └── FDF-Progress-Matrix/        [LOCAL] Foundational data fixes tracking
 
@@ -120,8 +118,13 @@ The user's knowledge management system uses a three-layer architecture designed 
 ├── notes/
 │   ├── management-journal/     Monthly leadership notes (YYYY-MM.md)
 │   ├── hex-notes/              PLT hex meeting notes
+│   ├── customer-research/      MIGRATED 2026-03-19: Customer interviews + syntheses (22 synthesis docs)
+│   │   ├── interviews/         9 interview analysis files
+│   │   ├── syntheses/          Product/theme/persona syntheses
+│   │   ├── clips/              Video clips (gitignored)
+│   │   └── to-process/         Unprocessed interviews
+│   ├── competitive-intelligence/ MIGRATED 2026-03-18: Competitor tracking (15 competitor files)
 │   ├── strategic-projects/     Project-specific notes & running logs
-│   ├── customer-research/      Customer interview notes
 │   ├── ai-automation/          AI automation research
 │   ├── leadership/             Leadership observations
 │   └── platform-architecture/  Technical architecture patterns
@@ -260,15 +263,17 @@ The Knowledge System includes these slash commands (in `.claude/commands/`):
   - Content migrated: people/, conversations/, resources/, management journal
 
 **Local-only** (sensitive data):
-- Competitive-Intel (competitive data)
-- Customer-Research (customer privacy)
 - Product-Feedback (customer data)
 - FDF-Progress-Matrix (internal tracking)
 
 **Knowledge System** (Obsidian Vault):
-- Now git-tracked as private repository
-- Contains: people files, conversations, management journal, syntheses, resources
+- Git-tracked as private repository
+- Contains: people files, conversations, management journal, customer research, competitive intelligence, syntheses, resources
 - Includes sensitive performance data (private repo)
+- Customer research video files gitignored (too large)
+- Migrated content:
+  - Competitive Intelligence (2026-03-18)
+  - Customer Research (2026-03-19)
 
 ### System Documentation
 
