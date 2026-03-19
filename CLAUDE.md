@@ -260,7 +260,6 @@ The user's knowledge management system uses a three-layer architecture designed 
 │   ├── business-strategy/      6 syntheses + cross-domain frameworks
 │   ├── ai-trends/              4 syntheses on AI/knowledge work
 │   └── life-philosophy/        3 syntheses on curiosity/relationships
-├── active-projects/            Current thinking projects
 ├── Readwise/                   Auto-synced highlights (900+ items)
 ├── _inbox/                     Quick capture
 ├── _daily/                     Daily notes and reflections
@@ -297,9 +296,10 @@ OUTPUTS (Writing repo)
 - Cross-domain syntheses created in Obsidian (e.g., Product Excellence Framework)
 
 **Syntheses → Outputs**:
-- Active projects developed in Obsidian's active-projects/ folder
+- Thinking and memo development happens in notes/ using links and tags
 - Draw from multiple syntheses for depth
-- Final polished work moved to Writing repo
+- When ready for drafting, work directly in Writing repo
+- Final polished work published from Writing repo to GSuite
 
 ### Cross-Domain Synthesis Examples
 
@@ -328,9 +328,9 @@ OUTPUTS (Writing repo)
 
 **When doing work projects**:
 1. Check relevant Knowledge System syntheses for insights
-2. Develop thinking in active-projects/ folder
+2. Develop thinking in notes/ using links and tags
 3. Reference sources from both personal learning and work data
-4. Move final output to Writing repo when complete
+4. When ready to draft, work directly in Writing repo
 
 **When logging meetings** (via `/log-meeting`):
 1. Creates Conversation file in conversations/ with summary + transcript
@@ -351,23 +351,14 @@ The Knowledge System includes these slash commands (in `.claude/commands/`):
 - `/generate-performance-review [name] [cycle]` - GPS-aligned performance review
 
 **Knowledge Development:**
-- `/think [topic]` - Create thinking project with auto-synthesized context from across Knowledge System
 - `/weekly-review` - Weekly knowledge system review
 
 **Skills Available:**
 - `grove-action-manager` - Things 3 integration for action items
 - `note-creator` - Create structured notes in Knowledge System
-- `active-project-manager` - Update strategic thinking projects
 - `name-validator` - Validate names against people-list.md
 - `performance-review-generator` - Generate GPS-based reviews
 - `promotion-proposal-reviewer` - Review promotion proposals
-
-**How /think works**:
-1. Give it a topic for a potential memo/presentation
-2. Automatically searches across all Knowledge System content (people files, conversations, notes, syntheses, Readwise, resources)
-3. Synthesizes findings on-the-fly: extracts quotes, identifies themes, finds patterns across source types
-4. Creates pre-populated thinking project with evidence organized, quotes ready to use, and suggested narrative angles
-5. Result: Workspace ready for developing memo idea over 1-2 weeks before formal drafting
 
 ### Git and Privacy Controls
 
