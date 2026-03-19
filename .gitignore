@@ -29,6 +29,19 @@ projects/
 downloads/
 logs/
 statsig/
+backups/
+cache/
+telemetry/
+
+# Hook state files
+job-timing-state.txt
+job-completion.log
+
+# Skill runtime logs
+**/action-log.jsonl
+
+# Weekly planning (runtime data)
+weekly-plan-priorities.json
 
 # Local settings
 settings.local.json

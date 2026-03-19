@@ -10,6 +10,18 @@
   "hooks": {
     "post-tool": {
       "Bash": "~/.claude/hooks/log-image-generation.sh"
-    }
-  }
+    },
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/job-completion.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "skipDangerousModePermissionPrompt": true
 }
