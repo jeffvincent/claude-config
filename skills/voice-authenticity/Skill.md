@@ -1,364 +1,118 @@
 # Voice Authenticity Reviewer
 
 ## Purpose
-Review any written content for alignment with your authentic speaking and writing voice using analyzed patterns from 7 meeting transcripts and strategic memos. Identify voice mismatches and suggest authentic rewrites.
+Review any written content for alignment with authentic speaking and writing voice using analyzed patterns from 7 meeting transcripts and strategic memos.
 
 ## When to Use This Skill
 - Before sharing strategic memos with leadership
 - Before sending important emails
 - When drafting presentation scripts
 - When reviewing documentation for external sharing
-- Anytime you want voice authenticity verification
-- As part of Writing /produce-memo workflow
+- As part of Writing /produce-memo workflow (Step 6)
+- Anytime voice authenticity verification is needed
 
-## Required Context
-
-**CRITICAL:** Before starting any review, ALWAYS read the current voice patterns:
-
-```
-Read: /Users/jvincent/Projects/Personal/Voice-Patterns/analysis/voice-patterns-v1.md
-```
-
-This 665-line analysis contains:
-- Vocabulary preferences (words to use vs avoid)
-- Sentence structure patterns (length, complexity, rhythm)
-- Tone guidelines (directness, formality level, emotional expression)
-- Authentic voice markers (specific constructions)
-- Red flags and anti-patterns
+---
 
 ## Workflow
 
 ### Step 1: Load Voice Patterns
 
-Read the complete voice analysis file. Take time to understand the patterns deeply - this is the foundation for accurate review.
+**CRITICAL:** Read the complete voice patterns file before doing anything else:
+
+```
+Read: /Users/jvincent/Projects/Personal/Voice-Patterns/analysis/voice-patterns-v1.md
+```
+
+This 665-line analysis is the foundation for the entire review. Do not skim it.
 
 ### Step 2: Get Content to Review
 
-Content can be provided in three ways:
+Content can be provided three ways:
 1. **Pasted directly** in the conversation
-2. **File path** provided (use Read tool to load)
-3. **Current context** (if reviewing something already in conversation)
+2. **File path** provided (use Read tool)
+3. **Current context** (already in conversation)
 
 If no content provided, ask: "What content would you like me to review for voice authenticity?"
 
-### Step 3: Analyze Content Against Patterns
+### Step 3: Determine Content Type
 
-Systematically check the content for:
+Identify the content type to calibrate the review:
+- Strategic memo → thorough review, all dimensions
+- Email → lighter touch, clarity focus
+- Presentation → rhythm and energy focus
+- Documentation → balance authenticity with clarity
 
-**Vocabulary Alignment:**
-- Using preferred words vs avoiding buzzwords
-- Authentic phrases vs corporate speak
-- Specific terminology choices
-- Word frequency and variety
+**Read:** `instructions/context-variations.md` for detailed guidance per type.
 
-**Sentence Structure:**
-- Length (target: 12-18 words based on patterns)
-- Complexity (simple vs compound vs complex)
-- Rhythm and pacing
-- Paragraph structure
+### Step 4: Analyze Content
 
-**Tone Consistency:**
-- Directness (avoiding hedging language)
-- Formality level (appropriate for context)
-- Emotional expression (measured vs expressive)
-- Confidence vs uncertainty
+Systematically check all five voice dimensions from `instructions/voice-dimensions.md`:
+1. Vocabulary alignment
+2. Sentence structure
+3. Tone consistency
+4. Authentic patterns
+5. Red flags
 
-**Authentic Patterns:**
-- Specific constructions that match voice
-- Natural transitions
-- Emphasis patterns
-- Logical flow
+For each issue found, record: **location + current text + pattern violated + concrete rewrite.**
 
-**Red Flags:**
-- Overly formal language
-- Passive voice overuse
-- Buzzwords and jargon
-- Hedging language ("I think", "maybe", "perhaps")
-- Corporate speak
+Follow the tone guidelines in `instructions/reviewer-tone.md` — be direct, constructive, and actionable.
 
-### Step 4: Provide Structured Feedback
+### Step 5: Run Advisory Board Review
 
-**Output Format:**
+Before finalizing, run the draft through the three reviewer personas in `eval/advisory-board.md`:
+1. **The Authenticity Purist** — catches AI/corporate voice
+2. **The Executive Reader** — evaluates clarity and impact
+3. **The Voice Coach** — checks quantitative metrics
 
-```markdown
-# Voice Authenticity Review
+Synthesize their feedback. Adjust priorities if the personas flag something the initial pass missed.
 
-## Overall Assessment
-**Rating:** [Highly Authentic / Mostly Authentic / Mixed / Needs Work]
-**Confidence:** [High / Medium / Low]
+### Step 6: Assemble Final Review
 
-## Executive Summary
-[2-3 sentences: overall voice match, main issues identified, estimated effort to fix]
+Use the output template in `templates/review-output.md` to structure the final review. Include:
+- Overall assessment with confidence level (see `instructions/confidence-levels.md`)
+- Issues by priority (High/Medium/Low)
+- Authentic moments (3-5 things that work)
+- Voice metrics table
+- Quick wins (top 3 changes)
+- Before/after examples
+- Next steps with time estimates
 
----
+### Step 7: Validate Against Checklist
 
-## Detailed Analysis
+Before delivering, run through every item in `eval/checklist.md`. All items must pass.
 
-### Content Overview
-- **Total paragraphs:** X
-- **Total sentences:** Y
-- **Word count:** Z
-- **Average sentence length:** X words (Target: 12-18)
+### Step 8: Offer Evolution Tracking
 
-### Issues Found
-
-#### 🔴 High Priority (Voice Breakers)
-These issues significantly break authentic voice and should be addressed immediately.
-
-**1. [Location - Para X, Sentence Y]**
-- **Current:** "[exact quote from content]"
-- **Issue:** [Specific explanation of why this breaks voice - reference voice patterns]
-- **Suggestion:** "[authentic rewrite preserving meaning]"
-- **Impact:** [Why this matters - clarity, authenticity, executive alignment, etc.]
-
-[Repeat for each high-priority issue]
-
-#### 🟡 Medium Priority (Voice Drift)
-These issues represent drift from authentic voice but aren't critical.
-
-**1. [Location]**
-- **Current:** "[quote]"
-- **Issue:** [Explanation]
-- **Suggestion:** "[rewrite]"
-- **Impact:** [Why this matters]
-
-[Repeat for each medium-priority issue]
-
-#### 🟢 Low Priority (Polish)
-Minor improvements that would enhance authenticity.
-
-**1. [Location]**
-- **Current:** "[quote]"
-- **Issue:** [Explanation]
-- **Suggestion:** "[rewrite]"
-- **Impact:** [Enhancement benefit]
-
-[Repeat for each low-priority issue]
-
-### ✅ Authentic Moments (What Works)
-
-These sections demonstrate strong voice alignment:
-
-1. **"[Quote from content]"** (Para X)
-   - **Why this works:** [Specific pattern match from voice-patterns]
-   - **Strength:** [What makes this authentic]
-
-2. **"[Another quote]"** (Para Y)
-   - **Why this works:** [Pattern match]
-   - **Strength:** [Authenticity element]
-
-[Include 3-5 authentic moments to reinforce what's working]
-
-### 📊 Voice Metrics
-
-| Metric | Current | Target | Assessment |
-|--------|---------|--------|------------|
-| Avg sentence length | X words | 12-18 words | [Pass/Needs work] |
-| Vocabulary match | Y% | 80%+ | [Pass/Needs work] |
-| Tone consistency | [Rating] | Consistent | [Assessment] |
-| Pattern alignment | Z matches | Strong | [Assessment] |
-
-**Sentence Length Distribution:**
-- Short (1-10 words): X%
-- Medium (11-20 words): Y%
-- Long (21+ words): Z%
+After delivering the review, follow the prompt in `instructions/evolution-tracking.md` to offer logging new voice insights to the refinements tracker.
 
 ---
 
-## Quick Wins (Top 3 Changes for Maximum Impact)
+## Reference Examples
 
-Focus on these changes first for biggest voice improvement:
-
-1. **[Specific high-impact change]**
-   - Location: [Para X]
-   - Change: [Brief description]
-   - Impact: [Why this matters most]
-
-2. **[Second high-impact change]**
-   - Location: [Para Y]
-   - Change: [Description]
-   - Impact: [Benefit]
-
-3. **[Third high-impact change]**
-   - Location: [Para Z]
-   - Change: [Description]
-   - Impact: [Benefit]
+- **Good review:** `examples/good/strategic-memo-review.md` — annotated example of a thorough, specific review
+- **Bad review (anti-pattern):** `examples/bad/vague-review.md` — what to avoid
 
 ---
 
-## Before/After Examples
-
-[If major rewrites suggested, show 2-3 complete examples]
-
-### Example 1: [Issue type]
-
-**Original:**
-> [Full quote from content]
-
-**Authentic Version:**
-> [Complete rewrite in authentic voice]
-
-**Why this is better:**
-- [Specific improvement 1]
-- [Specific improvement 2]
-- [Pattern match from voice-patterns]
-
-### Example 2: [Issue type]
-
-[Same format]
-
----
-
-## Context-Specific Guidance
-
-### [If Strategic Memo]
-- **Executive alignment:** [Check against Duncan/Yamini language patterns if applicable]
-- **Formality level:** [Appropriate for leadership audience?]
-- **Clarity:** [Direct and unambiguous?]
-
-### [If Email]
-- **Tone:** [Matches relationship context?]
-- **Brevity:** [Appropriate length for email?]
-- **Call to action:** [Clear and authentic?]
-
-### [If Presentation]
-- **Spoken rhythm:** [Flows naturally when read aloud?]
-- **Energy:** [Engaging and authentic?]
-- **Transitions:** [Natural signposting?]
-
----
-
-## Recommended Next Steps
-
-1. **Address High Priority issues** (Est. time: [X minutes])
-   - Focus on voice breakers first
-   - Use suggested rewrites or adapt them
-
-2. **Consider Medium Priority improvements** (Est. time: [Y minutes])
-   - Voice drift items that would strengthen authenticity
-   - Not critical but beneficial
-
-3. **Review authentic moments**
-   - Note what's working well
-   - Preserve these sections in any revisions
-
-4. **Re-review if major changes made**
-   - If addressing 5+ High Priority issues
-   - Run voice check again after revisions
-
-5. **Optional: Log insights**
-   - If new patterns observed, document in:
-     `/Users/jvincent/Projects/Personal/Voice-Patterns/evolution/refinements.md`
-
----
-
-## Voice Evolution Note
-
-After completing this review, consider:
-- Are new patterns emerging that aren't in voice-patterns-v1.md?
-- Are some guidelines proving less useful?
-- Has authentic voice evolved since patterns were created?
-
-Document insights in evolution/refinements.md for quarterly pattern review.
+## File Map
 
 ```
-
-## Special Considerations
-
-### For Different Content Types
-
-**Strategic Memos:**
-- Higher stakes - be more thorough
-- Check executive language alignment
-- Verify appropriate formality
-- Ensure clarity and directness
-
-**Emails:**
-- Lighter touch (email is naturally more casual)
-- Focus on clarity and brevity
-- Check tone matches relationship
-- Quick wins only - don't over-polish
-
-**Presentations:**
-- Read aloud mentally - check spoken rhythm
-- Energy and engagement matter
-- Verify natural transitions
-- Check pacing and emphasis
-
-**Documentation:**
-- Balance authenticity with technical clarity
-- Some formality appropriate
-- Focus on clarity over personality
-
-### Confidence Levels
-
-**High Confidence:**
-- Content closely matches analyzed patterns
-- Clear voice breakers identified
-- Specific rewrites possible
-
-**Medium Confidence:**
-- Some ambiguity in voice match
-- Context-dependent issues
-- Multiple valid interpretations
-
-**Low Confidence:**
-- Unfamiliar content type
-- Minimal pattern matches found
-- Need more context to assess
-
-If confidence is Medium or Low, note this clearly and explain why.
-
-## Quality Checklist
-
-Before finalizing review, verify:
-
-- [ ] Read voice-patterns-v1.md completely
-- [ ] Analyzed all content (not just excerpts)
-- [ ] Identified issues at all priority levels
-- [ ] Provided specific, actionable suggestions
-- [ ] Included authentic moments (what works)
-- [ ] Calculated voice metrics
-- [ ] Provided quick wins
-- [ ] Included before/after examples for major issues
-- [ ] Gave clear next steps
-- [ ] Estimated time to address issues
-- [ ] Noted any new patterns for evolution tracking
-
-## Output Tone
-
-Be:
-- **Direct:** Clear, specific feedback
-- **Constructive:** Focus on improvement, not criticism
-- **Actionable:** Provide concrete rewrites
-- **Encouraging:** Highlight what works
-- **Systematic:** Organize by priority
-
-Avoid:
-- Vague feedback ("this doesn't sound right")
-- Perfectionism (not every sentence needs fixing)
-- Generic advice (be specific to voice patterns)
-- Overwhelming user with too many changes
-
-## Evolution Integration
-
-After each review, prompt:
-
-"Would you like me to log any new voice insights from this review to the refinements tracker? This helps evolve the voice patterns over time."
-
-If yes, offer to append relevant observations to:
-`/Users/jvincent/Projects/Personal/Voice-Patterns/evolution/refinements.md`
-
-Format:
-```markdown
-## [Date] - [Document Type]
-
-**New Pattern Observed:**
-[Description]
-
-**Example:**
-[Quote from reviewed content]
-
-**Guidance to Add:**
-[How this should inform future reviews]
+voice-authenticity/
+├── Skill.md                              ← You are here (orchestrator)
+├── instructions/
+│   ├── voice-dimensions.md               ← 5 analysis dimensions
+│   ├── context-variations.md             ← Memo vs email vs presentation guidance
+│   ├── confidence-levels.md              ← High/Medium/Low criteria
+│   ├── reviewer-tone.md                  ← How to deliver feedback
+│   └── evolution-tracking.md             ← Post-review pattern logging
+├── templates/
+│   └── review-output.md                  ← Output format template
+├── examples/
+│   ├── good/
+│   │   └── strategic-memo-review.md      ← Annotated good review
+│   └── bad/
+│       └── vague-review.md               ← Anti-pattern to avoid
+└── eval/
+    ├── checklist.md                      ← Pass/fail validation
+    └── advisory-board.md                 ← 3 reviewer personas
 ```
