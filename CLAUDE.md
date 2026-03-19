@@ -79,6 +79,125 @@ git push
 
 **DO NOT wait for user to request commit** - proactively commit after each completed analysis.
 
+## Voice Authenticity System
+
+The user has a comprehensive voice authenticity system for ensuring consistent, authentic communication across all contexts.
+
+### Voice-Patterns Repository
+
+**Location**: `~/Projects/Personal/Voice-Patterns/` [GIT - private]
+**Repository**: Will be added to GitHub (private)
+**Purpose**: Personal voice patterns for authentic communication
+
+**Contents**:
+- `analysis/voice-patterns-v1.md` (665 lines) - Comprehensive voice analysis
+  - Vocabulary preferences (words to use vs avoid)
+  - Sentence structure patterns
+  - Tone and formality guidelines
+  - Authentic voice markers
+  - Red flags and anti-patterns
+- `transcripts/` - 7 meeting transcripts from 2025 (source material)
+- `examples/` - Before/after voice reviews
+- `evolution/` - Voice pattern evolution tracking
+  - `changelog.md` - Version history
+  - `refinements.md` - Ongoing pattern discoveries
+
+**Based on**: Analysis of 7 meeting transcripts covering various communication contexts
+
+### voice-authenticity Skill
+
+**Location**: `~/.claude/skills/voice-authenticity/`
+**Purpose**: Review any content for authentic voice alignment
+**Available**: Globally across all projects
+
+**How it works**:
+1. Reads voice patterns from Voice-Patterns project
+2. Analyzes provided content systematically
+3. Identifies voice mismatches (High/Medium/Low priority)
+4. Suggests authentic rewrites with specific improvements
+5. Highlights authentic moments to preserve
+6. Provides voice metrics (sentence length, vocabulary, tone)
+7. Offers quick wins (top 3 changes for maximum impact)
+
+**Output**: Structured review with:
+- Overall assessment (rating + confidence)
+- Issues by priority level
+- Authentic moments (what works)
+- Voice metrics (quantitative)
+- Quick wins
+- Before/after examples
+- Next steps with time estimates
+
+### Commands
+
+**Global**: `/check-voice`
+- Review any content for voice authenticity
+- Available in all projects
+- Prompts for content if not provided
+
+**Writing-specific**: `/check-voice` (in Writing repo)
+- Automatically finds main memo document
+- Offers to apply changes
+- Integrates with Writing Evolution Log
+
+### Integration
+
+**Writing Workflow**:
+- `/produce-memo` - Voice check in Step 6 (Integration and Polish)
+- `/critique` - Voice authenticity review after main critique
+- Recommended before sharing important docs
+
+**Use Cases**:
+- Strategic memos before leadership review
+- Important emails before sending
+- Presentation scripts before delivery
+- Documentation for external sharing
+- Any high-stakes communication
+
+### Evolution Process
+
+**Continuous Improvement**:
+1. After each review, can log insights to `evolution/refinements.md`
+2. Quarterly reviews analyze patterns and update voice-patterns
+3. Version control tracks voice evolution over time
+4. New patterns create new versions (currently v1.0)
+
+**Quarterly Reviews**:
+- Review refinements collected over quarter
+- Identify recurring themes
+- Update voice patterns if significant changes
+- Create v2.0 if major evolution
+- Update skill to reference new version
+
+### Context-Specific Variations
+
+The skill adapts review approach based on content type:
+- **Strategic Memos**: Thorough, executive alignment check
+- **Emails**: Lighter touch, focus on clarity
+- **Presentations**: Spoken rhythm, energy, engagement
+- **Documentation**: Balance authenticity with technical clarity
+
+### Success Metrics
+
+After 1 month:
+- Voice check integrated into Writing workflow
+- Used on 3+ memos
+- Initial refinements documented
+
+After 3 months:
+- 10+ documents reviewed
+- First quarterly pattern review completed
+- Voice patterns updated based on feedback
+
+After 6 months:
+- Voice check routine for all important docs
+- 25+ documents reviewed
+- Voice evolution trends visible
+- Considering v2.0 patterns
+
+**Created**: 2026-03-19
+**Current Version**: v1.0
+
 ## Knowledge System Architecture
 
 The user's knowledge management system uses a three-layer architecture designed to enable cross-domain insight generation and inform work outputs.
