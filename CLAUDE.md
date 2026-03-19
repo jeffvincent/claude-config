@@ -351,6 +351,7 @@ The Knowledge System includes these slash commands (in `.claude/commands/`):
 - `/generate-performance-review [name] [cycle]` - GPS-aligned performance review
 
 **Knowledge Development:**
+- `/think [topic]` - Create thinking note with auto-synthesized context from across Knowledge System
 - `/weekly-review` - Weekly knowledge system review
 
 **Skills Available:**
