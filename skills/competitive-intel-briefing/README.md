@@ -4,9 +4,24 @@ Automated competitive intelligence briefings for HubSpot leadership tracking AI-
 
 ## Quick Start
 
-### Manual Generation
+### Recommended: /start-week Command
 
-**Weekly briefing:**
+**Get your complete Monday morning briefing:**
+```bash
+# In Claude Code, run:
+/start-week
+```
+
+This orchestrates everything:
+- Calendar review and 1:1 prep
+- Priority tasks and deadlines
+- **Auto-generates competitive intel** (weekly on Mondays, monthly on first Monday)
+- Recent conversations and action items
+- Strategic context and priorities for the week
+
+### Alternative: Manual Generation
+
+**Weekly briefing only:**
 ```bash
 # In Claude Code, run:
 Use skill: competitive-intel-briefing
@@ -14,7 +29,7 @@ Use skill: competitive-intel-briefing
 Generate weekly light briefing for this week.
 ```
 
-**Monthly briefing:**
+**Monthly briefing only:**
 ```bash
 # In Claude Code, run:
 Use skill: competitive-intel-briefing
@@ -24,17 +39,14 @@ Generate monthly deep dive briefing for this month.
 
 ## Automated Scheduling
 
-### Option 1: Calendar Reminders (Recommended Initially)
+### LaunchAgent Reminders (Installed)
 
-Set calendar reminders for:
-- **Every Monday at 8:00 AM**: Generate weekly briefing
-- **First Monday of month at 8:00 AM**: Generate monthly briefing
+LaunchAgents are configured to pop up Terminal reminders:
 
-Then manually run the skill commands above.
+- **Every Monday at 8:00 AM**: Reminder to run `/start-week`
+- **First Monday of month at 8:00 AM**: Reminder to run `/start-week` (generates both briefings)
 
-### Option 2: LaunchAgent (Full Automation)
-
-**Note**: This requires Claude Code to support headless/CLI execution. Currently, the skill must be run interactively.
+When the Terminal opens, you'll see instructions to run `/start-week` in Claude Code.
 
 1. Copy launchd plist files:
 ```bash
