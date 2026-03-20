@@ -50,7 +50,7 @@ Before analyzing, determine if the content needs to be imported first, and if it
 **A. If user provides a title/name (e.g., "analyze 'machines loving grace' from Readwise")**:
 1. Search for existing source document in sources/ directory:
    ```
-   Glob: /Users/jvincent/Projects/Personal/Content Notes/sources/*_Readwise.md
+   Glob: /Users/jvincent/Projects/Knowledge System/notes/content notes/sources/*_Readwise.md
    ```
 2. Check if any filename matches the title (case-insensitive, fuzzy match)
 3. **If NOT found locally**: Search local Readwise index and import
@@ -100,7 +100,7 @@ Claude:
 ### Step 1: Read the Source Document
 Use the Read tool to load the Readwise source document:
 ```
-Read: /Users/jvincent/Projects/Personal/Content Notes/sources/YYYY-MM-DD_Author_Title_Readwise.md
+Read: /Users/jvincent/Projects/Knowledge System/notes/content notes/sources/YYYY-MM-DD_Author_Title_Readwise.md
 ```
 
 Extract:
@@ -143,7 +143,7 @@ Analyze all highlights to identify:
 **C. Connections to Existing Synthesis Documents**
 Read existing synthesis documents to find connections:
 ```
-Glob: /Users/jvincent/Projects/Personal/Content Notes/syntheses/*.md
+Glob: /Users/jvincent/Projects/Knowledge System/notes/content notes/syntheses/*.md
 ```
 
 For each existing synthesis:
@@ -205,7 +205,7 @@ For each synthesis document to update:
 
 **A. Read Existing Synthesis**
 ```
-Read: /Users/jvincent/Projects/Personal/Content Notes/syntheses/[theme-name].md
+Read: /Users/jvincent/Projects/Knowledge System/notes/content notes/syntheses/[theme-name].md
 ```
 
 **B. Identify Update Locations**
@@ -280,7 +280,7 @@ new_string: |
 ### Step 7: Commit Changes to Git
 After all updates are complete:
 ```bash
-cd "/Users/jvincent/Projects/Personal/Content Notes"
+cd "/Users/jvincent/Projects/Knowledge System/notes/content notes"
 git add .
 git commit -m "Analyze Readwise content: [Title] by [Author]
 

@@ -26,7 +26,7 @@ When the user invokes this skill, they may provide:
 
 **Your task:**
 
-1. **Search for existing content** in the Content Notes repository at `/Users/jvincent/Projects/Personal/Content Notes/sources/`
+1. **Search for existing content** in the Content Notes repository at `/Users/jvincent/Projects/Knowledge System/notes/content notes/sources/`
    - Use Glob to search for files matching the content name/title
    - Check both Readwise imports and video/podcast transcripts
 
@@ -160,8 +160,8 @@ At the end of your conversation (when the user signals they're done or the discu
 
 ## Content Notes Repository Structure
 
-- **Sources**: `/Users/jvincent/Projects/Personal/Content Notes/sources/`
-- **Syntheses**: `/Users/jvincent/Projects/Personal/Content Notes/syntheses/`
+- **Sources**: `/Users/jvincent/Projects/Knowledge System/notes/content notes/sources/`
+- **Syntheses**: `/Users/jvincent/Projects/Knowledge System/notes/content notes/syntheses/`
 - **Git repo**: `https://github.com/jeffvincent/content-notes`
 
 ## Skills You Can Invoke

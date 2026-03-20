@@ -44,25 +44,29 @@ ThingsWriter.add_task(
 )
 ```
 
-## Content Notes Repository
+## Content Notes in Knowledge System
 
-The user also has a separate git repository for Content Notes at `/Users/jvincent/Projects/Personal/Content Notes/`:
-- **Repository**: https://github.com/jeffvincent/content-notes
-- **Purpose**: Knowledge base for extracting insights from podcasts and interviews
-- **Contents**: Source documents, synthesis notes, transcripts, and automation scripts
+**MIGRATED 2026-03-20**: Content Notes is now integrated into Knowledge System at `~/Projects/Knowledge System/notes/content notes/`
+
+**Structure:**
+- **sources/**: Podcast/interview analysis documents
+- **transcripts/**: SRT and text transcripts
+- **syntheses/**: Cross-domain thematic insights (leadership, business-strategy, ai-trends, life-philosophy)
+
+**Previous external repository** (`~/Projects/Personal/Content Notes/`) has been deprecated. All new content goes into Knowledge System.
 
 ### Auto-Commit Workflow for Content Notes
 
-**IMPORTANT**: After processing each new podcast/interview (via `/process-media` command or manual workflow), automatically commit and push the new content:
+**IMPORTANT**: After processing each new podcast/interview, automatically commit and push to Knowledge System:
 
 ```bash
-cd "/Users/jvincent/Projects/Personal/Content Notes"
-git add .
-git commit -m "Add analysis for [Guest Name] - [Topic]
+cd "/Users/jvincent/Projects/Knowledge System"
+git add notes/content\ notes/sources/ notes/content\ notes/transcripts/ notes/content\ notes/syntheses/
+git commit -m "Add content notes analysis: [Guest Name] - [Topic]
 
 New content:
-- Source document with interview analysis
-- Transcript (SRT format)
+- Source document with analysis
+- Transcript
 - Updated synthesis notes: [Theme 1], [Theme 2], [Theme 3]
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
@@ -71,11 +75,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 git push
 ```
 
-**When to commit to Content Notes:**
-1. After completing `/process-media` workflow (new source document created)
+**When to commit:**
+1. After processing new podcast/interview content
 2. After creating new synthesis notes
 3. After updating existing synthesis notes with new examples
-4. After script improvements or documentation updates
 
 **DO NOT wait for user to request commit** - proactively commit after each completed analysis.
 
@@ -220,12 +223,6 @@ The user's knowledge management system uses a three-layer architecture designed 
 ### Directory Structure
 
 ```
-~/Projects/Personal/
-└── Content Notes/              [GIT] Personal learning (podcasts, books)
-    ├── sources/               Podcast/interview analyses
-    ├── syntheses/             Original thematic insights (17 documents)
-    └── transcripts/           SRT files
-
 ~/Projects/Work/
 ├── Writing/                    [GIT] Strategic documents and presentations
 ├── Product-Feedback/           [LOCAL] Support data and insights
@@ -235,6 +232,14 @@ The user's knowledge management system uses a three-layer architecture designed 
 ├── people/                     33 person files (direct reports & colleagues)
 ├── conversations/              Meeting transcripts and recordings
 ├── notes/
+│   ├── content notes/          MIGRATED 2026-03-20: Personal learning content (podcasts, books, articles)
+│   │   ├── sources/            Podcast/interview analysis documents (9 files)
+│   │   ├── transcripts/        SRT and text transcripts (8 files)
+│   │   └── syntheses/          Cross-domain thematic insights (17 documents)
+│   │       ├── leadership/     4 syntheses
+│   │       ├── business-strategy/ 8 syntheses
+│   │       ├── ai-trends/      4 syntheses
+│   │       └── life-philosophy/ 3 syntheses
 │   ├── management-journal/     Monthly leadership notes (YYYY-MM.md)
 │   ├── hex-notes/              PLT hex meeting notes
 │   ├── customer-research/      MIGRATED 2026-03-19: Customer interviews + syntheses (22 synthesis docs)
@@ -255,11 +260,6 @@ The user's knowledge management system uses a three-layer architecture designed 
 │   ├── PM-Coaching.md          Coaching insights repository
 │   ├── AI-CRM-Disruption.md    Strategic signal tracker
 │   └── people-list.md          Canonical name reference
-├── syntheses/                  Cross-domain thematic insights
-│   ├── leadership/             4 syntheses from Content Notes
-│   ├── business-strategy/      6 syntheses + cross-domain frameworks
-│   ├── ai-trends/              4 syntheses on AI/knowledge work
-│   └── life-philosophy/        3 syntheses on curiosity/relationships
 ├── Readwise/                   Auto-synced highlights (900+ items)
 ├── _inbox/                     Quick capture
 ├── _daily/                     Daily notes and reflections
@@ -279,25 +279,25 @@ SYNTHESES (Obsidian vault)
 OUTPUTS (Writing repo)
 ```
 
-**Sources** = Raw content in domain-specific repositories
+**Sources** = Raw content (now integrated into Knowledge System at notes/content notes/)
 **Syntheses** = Cross-domain insights that connect personal learning with work data
 **Outputs** = Polished memos, presentations, strategy documents
 
 ### Key Workflows
 
-**Content Notes → Syntheses**:
-- New podcast analysis added to Content Notes sources
-- Themes identified and added to Content Notes syntheses
-- Cross-domain connections identified and documented in Obsidian syntheses
+**Content Notes → Syntheses** (integrated workflow):
+- New podcast analysis added to notes/content notes/sources/
+- Themes identified and updated in notes/content notes/syntheses/
+- Cross-domain connections documented across Knowledge System
 
 **Work Data → Syntheses**:
-- Customer interviews, product feedback, competitive intel collected in Work repos
-- Patterns identified that connect to personal learning themes
-- Cross-domain syntheses created in Obsidian (e.g., Product Excellence Framework)
+- Customer interviews (notes/customer-research/), product feedback (Work repos), competitive intel (notes/competitive-intelligence/)
+- Patterns identified that connect to personal learning themes from content notes
+- Cross-domain syntheses created in notes/content notes/syntheses/
 
 **Syntheses → Outputs**:
 - Thinking and memo development happens in notes/ using links and tags
-- Draw from multiple syntheses for depth
+- Draw from content notes syntheses, customer research, and competitive intel
 - When ready for drafting, work directly in Writing repo
 - Final polished work published from Writing repo to GSuite
 

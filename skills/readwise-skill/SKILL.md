@@ -101,7 +101,7 @@ Show results to user and ask which one to import.
 Once you have the book ID:
 ```bash
 cd ~/.claude/skills/readwise-skill/scripts
-python3 import_item.py --book-id 12345 --output-dir "/Users/jvincent/Projects/Personal/Content Notes/sources"
+python3 import_item.py --book-id 12345 --output-dir "/Users/jvincent/Projects/Knowledge System/notes/content notes/sources"
 ```
 
 The script outputs JSON with:
@@ -128,7 +128,7 @@ Tell the user:
 ### Step 5: Auto-Commit to Git
 After successful import, automatically commit to git:
 ```bash
-cd "/Users/jvincent/Projects/Personal/Content Notes"
+cd "/Users/jvincent/Projects/Knowledge System/notes/content notes"
 git add .
 git commit -m "Add Readwise import: [Title] by [Author]
 
@@ -150,7 +150,7 @@ After import, ask:
 To update an existing import with new highlights:
 ```bash
 cd ~/.claude/skills/readwise-skill/scripts
-python3 sync.py --filepath "/Users/jvincent/Projects/Personal/Content Notes/sources/2026-02-10_James-Clear_Atomic-Habits_Readwise.md"
+python3 sync.py --filepath "/Users/jvincent/Projects/Knowledge System/notes/content notes/sources/2026-02-10_James-Clear_Atomic-Habits_Readwise.md"
 ```
 
 The script:

@@ -6,45 +6,36 @@ input=$(cat)
 # Extract current directory from JSON
 current_dir=$(echo "$input" | jq -r '.workspace.current_dir')
 
-# Only show status when in the Anchor project directory
-if [[ "$current_dir" != "/Users/jvincent/Projects/Anchor"* ]]; then
-    exit 0
-fi
+# Shorten the directory path (replace home with ~)
+short_dir="${current_dir/#$HOME/\~}"
 
-# Project name
-project_name="Anchor Orthodontics"
+# Get git info if in a repository
+git_info=""
+if git -C "$current_dir" rev-parse --git-dir > /dev/null 2>&1; then
+    # Get the remote URL and extract repo name
+    remote_url=$(git -C "$current_dir" config --get remote.origin.url 2>/dev/null)
 
-# Extract first unchecked task from Active Tasks in CLAUDE.md
-claude_md="/Users/jvincent/Projects/Anchor/CLAUDE.md"
-if [[ -f "$claude_md" ]]; then
-    # Find the first unchecked task after "Active Tasks:" section
-    current_focus=$(awk '/\*\*Active Tasks:\*\*/{flag=1; next} flag && /^- \[ \]/{print; exit}' "$claude_md" | sed 's/^- \[ \] //' | sed 's/^[[:space:]]*//')
-    
-    # If no unchecked tasks, show "All tasks complete"
-    if [[ -z "$current_focus" ]]; then
-        current_focus="All tasks complete"
-    fi
-else
-    current_focus="Unknown"
-fi
+    if [[ -n "$remote_url" ]]; then
+        # Extract repo name from GitHub URL
+        # Handles both SSH (git@github.com:user/repo.git) and HTTPS (https://github.com/user/repo.git)
+        repo_name=$(echo "$remote_url" | sed -E 's/.*[:/]([^/]+\/[^/]+)(\.git)?$/\1/' | sed 's/\.git$//')
 
-# Calculate percent complete from SEO-RECOMMENDATIONS.md
-seo_file="/Users/jvincent/Projects/Anchor/SEO-RECOMMENDATIONS.md"
-if [[ -f "$seo_file" ]]; then
-    # Count total checkboxes (both checked and unchecked)
-    total=$(grep -o '\[[ x]\]' "$seo_file" | wc -l | tr -d ' ')
-    # Count checked boxes
-    checked=$(grep -o '\[x\]' "$seo_file" | wc -l | tr -d ' ')
-    
-    # Calculate percentage (avoid division by zero)
-    if [[ $total -gt 0 ]]; then
-        percent=$((checked * 100 / total))
+        # Get current branch
+        branch=$(git -C "$current_dir" branch --show-current 2>/dev/null)
+
+        if [[ -n "$branch" ]]; then
+            git_info=" | ${repo_name} (${branch})"
+        else
+            git_info=" | ${repo_name}"
+        fi
     else
-        percent=0
+        # No remote, just show branch
+        branch=$(git -C "$current_dir" branch --show-current 2>/dev/null)
+        if [[ -n "$branch" ]]; then
+            git_info=" | git (${branch})"
+        fi
     fi
-else
-    percent=0
 fi
 
 # Output the status line
-echo "${project_name} | ${current_focus} | ${percent}% complete"
+echo "${short_dir}${git_info}"
