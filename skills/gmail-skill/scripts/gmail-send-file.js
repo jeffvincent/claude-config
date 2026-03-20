@@ -6,13 +6,20 @@ import { readFileSync } from 'fs';
 import { getAuthClient, parseAccountArg } from './auth/auth-utils.js';
 import { logAction } from './action-logger.js';
 
+function encodeSubject(subject) {
+  // Encode subject line using RFC 2047 for proper UTF-8 handling
+  // This ensures emojis and special characters display correctly
+  const encoded = Buffer.from(subject, 'utf-8').toString('base64');
+  return `=?UTF-8?B?${encoded}?=`;
+}
+
 function createEmailMessage(to, subject, body, options = {}) {
   const { cc, bcc, replyTo, from } = options;
 
   const headers = [
     `From: ${from || to}`,
     `To: ${to}`,
-    `Subject: ${subject}`,
+    `Subject: ${encodeSubject(subject)}`,
   ];
 
   if (cc) headers.push(`Cc: ${cc}`);
