@@ -138,14 +138,9 @@ The user has a comprehensive voice authenticity system for ensuring consistent, 
 - Available in all projects
 - Prompts for content if not provided
 
-**Writing-specific**: `/check-voice` (in Writing repo)
-- Automatically finds main memo document
-- Offers to apply changes
-- Integrates with Writing Evolution Log
-
 ### Integration
 
-**Writing Workflow**:
+**Knowledge System Projects**:
 - `/produce-memo` - Voice check in Step 6 (Integration and Polish)
 - `/critique` - Voice authenticity review after main critique
 - Recommended before sharing important docs
@@ -183,7 +178,7 @@ The skill adapts review approach based on content type:
 ### Success Metrics
 
 After 1 month:
-- Voice check integrated into Writing workflow
+- Voice check integrated into project workflows
 - Used on 3+ memos
 - Initial refinements documented
 
@@ -216,7 +211,7 @@ The user's knowledge management system uses a three-layer architecture designed 
 - Combines personal learning with work data
 - Active thinking and project development space
 
-**Layer 3: OUTPUT GENERATION** (Writing repo + presentations)
+**Layer 3: OUTPUT GENERATION** (Knowledge System projects/ directory)
 - Polished deliverables informed by syntheses
 - Final work products
 
@@ -224,7 +219,6 @@ The user's knowledge management system uses a three-layer architecture designed 
 
 ```
 ~/Projects/Work/
-├── Writing/                    [GIT] Strategic documents and presentations
 ├── Product-Feedback/           [LOCAL] Support data and insights
 └── FDF-Progress-Matrix/        [LOCAL] Foundational data fixes tracking
 
@@ -276,12 +270,12 @@ SOURCES (Layer 1 repos)
   ↓
 SYNTHESES (Obsidian vault)
   ↓
-OUTPUTS (Writing repo)
+OUTPUTS (Knowledge System projects/)
 ```
 
 **Sources** = Raw content (now integrated into Knowledge System at notes/content notes/)
 **Syntheses** = Cross-domain insights that connect personal learning with work data
-**Outputs** = Polished memos, presentations, strategy documents
+**Outputs** = Polished memos, presentations, strategy documents (in Knowledge System projects/)
 
 ### Key Workflows
 
@@ -298,8 +292,8 @@ OUTPUTS (Writing repo)
 **Syntheses → Outputs**:
 - Thinking and memo development happens in notes/ using links and tags
 - Draw from content notes syntheses, customer research, and competitive intel
-- When ready for drafting, work directly in Writing repo
-- Final polished work published from Writing repo to GSuite
+- When ready for drafting, work directly in Knowledge System projects/ directory
+- Final polished work published from projects/ to GSuite
 
 ### Cross-Domain Synthesis Examples
 
@@ -330,7 +324,7 @@ OUTPUTS (Writing repo)
 1. Check relevant Knowledge System syntheses for insights
 2. Develop thinking in notes/ using links and tags
 3. Reference sources from both personal learning and work data
-4. When ready to draft, work directly in Writing repo
+4. When ready to draft, work directly in Knowledge System projects/ directory
 
 **When logging meetings** (via `/log-meeting`):
 1. Creates Conversation file in conversations/ with summary + transcript
@@ -366,9 +360,11 @@ The Knowledge System includes these slash commands (in `.claude/commands/`):
 **Git-tracked repositories** (public or private):
 - Content Notes (public) - https://github.com/jeffvincent/content-notes
 - Knowledge System (private) - https://github.com/jeffvincent/knowledge-system
-- Writing (private) - https://github.com/jeffvincent/hs-writing
 
 **Archived repositories**:
+- Writing (private) - Integrated into Knowledge System on 2026-03-25
+  - Backup: `/Users/jvincent/Backups/Writing-backup-2026-03-25.tar.gz`
+  - Content migrated: projects/, resources/global/, agents, commands, skills
 - Grove (private) - Integrated into Knowledge System on 2026-03-18
   - Backup: `/Users/jvincent/Backups/Grove-backup-2026-03-18.tar.gz`
   - Content migrated: people/, conversations/, resources/, management journal
@@ -379,12 +375,13 @@ The Knowledge System includes these slash commands (in `.claude/commands/`):
 
 **Knowledge System** (Obsidian Vault):
 - Git-tracked as private repository
-- Contains: people files, conversations, management journal, customer research, competitive intelligence, syntheses, resources
+- Contains: people files, conversations, management journal, customer research, competitive intelligence, syntheses, resources, projects, agents, commands, skills
 - Includes sensitive performance data (private repo)
 - Customer research video files gitignored (too large)
 - Migrated content:
   - Competitive Intelligence (2026-03-18)
   - Customer Research (2026-03-19)
+  - Writing repo integration (2026-03-25): projects/, resources/global/, agents, commands, skills
 
 ### System Documentation
 
