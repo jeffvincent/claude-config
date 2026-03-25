@@ -219,7 +219,7 @@ The user's knowledge management system uses a three-layer architecture designed 
 
 ```
 ~/Projects/Work/
-└── FDF-Progress-Matrix/        [LOCAL] Foundational data fixes tracking
+└── (empty - all content archived or migrated to Knowledge System)
 
 ~/Projects/Knowledge System/    [GIT + OBSIDIAN VAULT] Integrated knowledge & people management
 ├── people/                     33 person files (direct reports & colleagues)
@@ -373,7 +373,7 @@ The Knowledge System includes these slash commands (in `.claude/commands/`):
   - Reason: Dormant for 4.5 months, customer insights work moved to Knowledge System
 
 **Local-only** (sensitive data):
-- FDF-Progress-Matrix (internal tracking)
+- (none - all Work repositories have been archived or migrated)
 
 **Knowledge System** (Obsidian Vault):
 - Git-tracked as private repository
