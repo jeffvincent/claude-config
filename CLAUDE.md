@@ -219,7 +219,6 @@ The user's knowledge management system uses a three-layer architecture designed 
 
 ```
 ~/Projects/Work/
-├── Product-Feedback/           [LOCAL] Support data and insights
 └── FDF-Progress-Matrix/        [LOCAL] Foundational data fixes tracking
 
 ~/Projects/Knowledge System/    [GIT + OBSIDIAN VAULT] Integrated knowledge & people management
@@ -368,9 +367,12 @@ The Knowledge System includes these slash commands (in `.claude/commands/`):
 - Grove (private) - Integrated into Knowledge System on 2026-03-18
   - Backup: `/Users/jvincent/Backups/Grove-backup-2026-03-18.tar.gz`
   - Content migrated: people/, conversations/, resources/, management journal
+- Product-Feedback (local-only) - Archived on 2026-03-25
+  - Backup: `/Users/jvincent/Backups/Product-Feedback-backup-2026-03-25.tar.gz`
+  - Last analysis: November 3, 2025 (Data Platform Code Orange - 3,664 issues)
+  - Reason: Dormant for 4.5 months, customer insights work moved to Knowledge System
 
 **Local-only** (sensitive data):
-- Product-Feedback (customer data)
 - FDF-Progress-Matrix (internal tracking)
 
 **Knowledge System** (Obsidian Vault):
