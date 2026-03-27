@@ -1,18 +1,24 @@
-Process a Founders podcast or YouTube video into fully analyzed content notes.
+Process a podcast or video into fully analyzed content notes.
 
-Arguments: YOUTUBE_URL [DISPLAY_NAME]
+Arguments: URL_OR_FILE [DISPLAY_NAME]
 
 Steps:
-1. Extract transcript from YouTube using yt-dlp:
-   ```
-   yt-dlp --write-auto-sub --sub-format vtt --skip-download \
-     -o "/tmp/yt-transcript" "YOUTUBE_URL"
-   ```
-2. Get video title/metadata:
-   ```
-   yt-dlp --get-title --get-id "YOUTUBE_URL"
-   ```
-3. Parse the .vtt file into clean readable text with timestamps:
+1. Determine transcript source based on input:
+
+   **If YouTube URL** (youtube.com or youtu.be):
+   - Extract transcript and metadata directly via yt-dlp (no video download needed):
+     ```
+     yt-dlp --get-title --get-id "URL"
+     yt-dlp --write-auto-sub --sub-format vtt --skip-download \
+       -o "/tmp/yt-transcript" "URL"
+     ```
+
+   **If not a YouTube URL** (local file, Vimeo, etc.):
+   - Ask the user: "This isn't a YouTube URL — would you like to upload it to Wistia to get a transcript?"
+   - If yes: upload to Wistia project d8417fem9e, wait for transcription, download transcript
+   - If no: ask them to provide a transcript file directly
+
+2. Parse the .vtt file into clean readable text with timestamps:
    - Strip inline word-level tags (<c>, timing annotations)
    - Deduplicate consecutive identical lines
    - Group by minute with [MM:SS] markers
