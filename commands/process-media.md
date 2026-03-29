@@ -33,6 +33,13 @@ Steps:
    - Topical breakdown with timestamps (10-15 sections)
    - Related themes
    - Connections to existing syntheses
+4b. Find connections: After creating the source document, add wiki-links to related vault content:
+   - Extract the 2-3 key themes identified in the document
+   - Search `~/Projects/Knowledge System/notes/` for existing notes with matching tags or themes
+   - Add up to 3 `[[wiki-links]]` to the "Connections to Existing Syntheses" section (already in the template, or append under "## Related Notes")
+   - Only link notes that are genuinely topically related — don't link on generic overlap
+   - Link the specific synthesis files that will be updated in step 5 using `[[filename-without-extension]]` syntax
+
 5. Identify 2-3 major themes and create/update synthesis notes in:
    ~/Projects/Knowledge System/notes/content notes/syntheses/
 6. Clean up /tmp/yt-transcript* files
