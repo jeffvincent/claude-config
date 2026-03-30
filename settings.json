@@ -52,6 +52,10 @@
       {
         "hooks": [
           {
+            "command": "python3 /Users/jvincent/.claude/hooks/ks-link-suggestions.py",
+            "type": "command"
+          },
+          {
             "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__local-run-suggestions --agent claude_code",
             "type": "command"
           },
@@ -65,10 +69,6 @@
           },
           {
             "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__java-inspections --agent claude_code",
-            "type": "command"
-          },
-          {
-            "command": "python3 /Users/jvincent/.claude/hooks/ks-link-suggestions.py",
             "type": "command"
           }
         ],
@@ -184,6 +184,10 @@
     "UserPromptSubmit": [
       {
         "hooks": [
+          {
+            "command": "$HOME/.claude/hooks/job-start.sh",
+            "type": "command"
+          },
           {
             "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__at-onepager-reminder --agent claude_code",
             "type": "command"
