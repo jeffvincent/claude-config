@@ -1,162 +1,19 @@
 {
   "alwaysThinkingEnabled": true,
-  "autoMode": {
-    "environment": [
-      "Organization: HubSpot. Primary use: software development.",
-      "Source control: git.hubteam.com and github.com/HubSpotEngineering. Pushing to working branches (non master/main) on both is normal workflow.",
-      "Developer workspace: ~/src/ contains cloned source repositories. Reading any file under ~/src/ is a normal cross-repo exploration workflow and is always safe.",
-      "Trusted internal domains: *.hubspot.com, *.hubteam.com, *.hubteamqa.com, *.hubapi.com, *.hubspotqa.com, *.hubspot.net, *.hubspotcentral.com, *.grpc.hubspot.com, *.k8s.run",
-      "HubSpot CLI tools: bend (build/test/lint), chirp (RPC framework CLI), hsauthctl (auth tokens), lfetch (log search), bpx (dev tools runner), hs-local (local dev environment), uv (Python toolchain). Read-only operations with any of these tools are always safe. Build, test, lint, and auth token refresh are local-only mutations safe for normal development workflows."
-    ]
-  },
   "defaultMode": "plan",
-  "enabledPlugins": {
-    "typescript-lsp@hubspot-plugins": true
-  },
-  "extraKnownMarketplaces": {
-    "hubspot-plugins": {
-      "source": {
-        "repo": "HubSpotEngineering/claude-code-plugins",
-        "source": "github"
-      }
-    }
-  },
   "feedbackSurveyState": {
     "lastShownTime": 1754062597340
   },
   "hooks": {
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__slack-notification --agent claude_code",
-            "type": "command"
-          }
-        ]
-      }
-    ],
     "PostToolUse": [
-      {
-        "hooks": [
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__maven-reminder --agent claude_code",
-            "type": "command"
-          },
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__gh-pr-reminder --agent claude_code",
-            "type": "command"
-          }
-        ],
-        "matcher": "Bash"
-      },
       {
         "hooks": [
           {
             "command": "python3 /Users/jvincent/.claude/hooks/ks-link-suggestions.py",
             "type": "command"
-          },
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__local-run-suggestions --agent claude_code",
-            "type": "command"
-          },
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__typecheck --agent claude_code",
-            "type": "command"
-          },
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__java-lint --agent claude_code",
-            "type": "command"
-          },
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__java-inspections --agent claude_code",
-            "type": "command"
           }
         ],
         "matcher": "Edit|Write|MultiEdit"
-      },
-      {
-        "hooks": [
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__github-interceptor --agent claude_code",
-            "type": "command"
-          }
-        ],
-        "matcher": "WebFetch"
-      }
-    ],
-    "PreCompact": [
-      {
-        "hooks": [
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__at-onepager-reminder-compact --agent claude_code",
-            "type": "command"
-          }
-        ],
-        "matcher": "manual|auto"
-      }
-    ],
-    "PreToolUse": [
-      {
-        "hooks": [
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__llm-command-approval --agent claude_code",
-            "type": "command"
-          }
-        ],
-        "matcher": "*"
-      },
-      {
-        "hooks": [
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__commit-msg --agent claude_code",
-            "type": "command"
-          },
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__bend-command-guard --agent claude_code",
-            "type": "command"
-          },
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__command-allowlist --agent claude_code",
-            "type": "command"
-          },
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__pre-push --agent claude_code",
-            "type": "command"
-          }
-        ],
-        "matcher": "Bash"
-      },
-      {
-        "hooks": [
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__m2-browsing-guard --agent claude_code",
-            "type": "command"
-          }
-        ],
-        "matcher": "Bash|Read|Glob"
-      },
-      {
-        "hooks": [
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__jest-prevention --agent claude_code",
-            "type": "command"
-          },
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__java-inspections-open --agent claude_code",
-            "type": "command"
-          }
-        ],
-        "matcher": "Edit|Write|MultiEdit"
-      }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__upload-transcript-session-end --agent claude_code",
-            "type": "command"
-          }
-        ]
       }
     ],
     "Stop": [
@@ -164,18 +21,6 @@
         "hooks": [
           {
             "command": "$HOME/.claude/hooks/job-completion.sh",
-            "type": "command"
-          },
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__track-usage --agent claude_code",
-            "type": "command"
-          },
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__upload-transcript-stop --agent claude_code",
-            "type": "command"
-          },
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__acceptance-tests-must-pass --agent claude_code",
             "type": "command"
           }
         ]
@@ -187,10 +32,6 @@
           {
             "command": "$HOME/.claude/hooks/job-start.sh",
             "type": "command"
-          },
-          {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python /Users/jvincent/.local/bin/devex-hooks run devex-hooks__at-onepager-reminder --agent claude_code",
-            "type": "command"
           }
         ]
       }
@@ -199,13 +40,9 @@
   "model": "sonnet",
   "permissions": {
     "allow": [
-      "Bash(GH_HOST=git.hubteam.com gh pr diff:*)",
-      "Bash(GH_HOST=git.hubteam.com gh pr list:*)",
-      "Bash(GH_HOST=git.hubteam.com gh pr view:*)",
       "Bash(GH_HOST=github.com gh pr diff:*)",
       "Bash(GH_HOST=github.com gh pr list:*)",
       "Bash(GH_HOST=github.com gh pr view:*)",
-      "Bash(bend:*)",
       "Bash(cat:*)",
       "Bash(find:*)",
       "Bash(gh pr diff:*)",
@@ -227,11 +64,7 @@
       "Bash(git rev-parse:*)",
       "Bash(git rm:*)",
       "Bash(git stash:*)",
-      "Read(//Users/*/.hubspot/browser-cli/**)",
-      "Read(//home/*/.hubspot/browser-cli/**)",
-      "Read(//tmp/mcp-tool-outputs/**)",
-      "Read(//tmp/selenium-results-hs-test-job-id-*/**)",
-      "mcp__devex-mcp-server"
+      "Read(//tmp/mcp-tool-outputs/**)"
     ],
     "deny": [
       "Read(*.pem)"
