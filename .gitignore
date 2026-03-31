@@ -46,6 +46,9 @@ weekly-plan-priorities.json
 # Local settings
 settings.local.json
 
+# Private configuration (may contain proprietary info)
+CLAUDE.md
+
 # macOS
 .DS_Store
 .AppleDouble
