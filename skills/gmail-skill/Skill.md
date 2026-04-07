@@ -118,6 +118,17 @@ node gmail-read.js --id "$MESSAGE_ID"
 node gmail-send.js --to "user@example.com" --subject "Subject" --body "Body text"
 ```
 
+**Email Formatting:** The `--body` parameter accepts **markdown** and automatically converts it to styled HTML for email rendering. Use markdown headers (`##`), bold (`**text**`), lists (`- item`), and paragraphs (double newlines) for well-formatted emails. If you need raw HTML, use `--html` instead.
+
+**IMPORTANT:** When sending long-form content (analyses, reports, briefings), ALWAYS use markdown formatting:
+- Use `##` headers to create visual sections
+- Use `**bold**` for emphasis and key terms
+- Use `- ` bullet lists for structured points
+- Use blank lines between paragraphs
+- Use `---` for horizontal rule separators between major sections
+
+**For long emails**, use `--body-file /path/to/file.md` instead of `--body`. Write the markdown content to a temp file first, then pass the path. This avoids shell argument length limits.
+
 ### Search Emails
 ```bash
 node gmail-search.js --query "is:unread" --limit 10
