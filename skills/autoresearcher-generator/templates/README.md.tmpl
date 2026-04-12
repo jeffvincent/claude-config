@@ -1,0 +1,44 @@
+# autoresearch-{{SLUG}}
+
+Self-improving loop for the `{{SKILL_NAME}}` skill, modeled on [karpathy/autoresearch](https://github.com/karpathy/autoresearch).
+
+## Files
+
+| File | Role | Mutable? |
+|---|---|---|
+| `program.md` | Loop driver instructions | No |
+| `Skill.md` | The skill prompt being iterated on (copy of live) | **Yes — edited by the loop** |
+| `eval.mjs` | Programmatic checks | No |
+| `judge-prompt.md` | LLM judge rubric | No |
+| `inputs/pool.tsv` | Rotating inputs | No |
+| `results.tsv` | Per-cycle log | Appended; gitignored |
+| `scratch/` | Generated samples per cycle | Gitignored |
+
+## Run it
+
+```
+cd {{PROJECT_DIR}}
+claude
+```
+
+Then: `Read program.md and run the autoresearch loop.`
+
+The loop stops after 30 cycles or when it hits 3 consecutive perfect cycles on different inputs.
+
+## Promote the result
+
+```
+diff {{LIVE_SKILL_PATH}} ./Skill.md
+```
+
+If you like the diff, copy over manually. The loop never touches the live skill.
+
+## The checks
+
+**Programmatic ({{PROG_COUNT}}):**
+{{PROG_CHECK_LIST}}
+
+**Judge ({{JUDGE_COUNT}}):**
+{{JUDGE_CHECK_LIST}}
+
+A sample passes only if ALL checks pass.

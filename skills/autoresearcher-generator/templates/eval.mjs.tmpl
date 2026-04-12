@@ -1,0 +1,78 @@
+#!/usr/bin/env node
+// Programmatic eval for {{SKILL_NAME}}.
+// Usage: node eval.mjs <file1> [file2 ...]
+// Output: one JSON line per file with {file, checks:{...}, passed, failed_checks:[...]}
+//
+// This file is SYNTHESIZED from the user's constraints at scaffold time.
+// Each check should be cheap, deterministic, and return a boolean.
+
+import fs from 'node:fs';
+
+// ---------- helper utilities (keep, extend as needed) ----------
+
+function readFile(p) {
+  try { return fs.readFileSync(p, 'utf8'); }
+  catch (e) { return null; }
+}
+
+function tryJson(s) {
+  try { return JSON.parse(s); } catch { return null; }
+}
+
+function wordCount(s) {
+  return (s || '').trim().split(/\s+/).filter(Boolean).length;
+}
+
+function lineCount(s) {
+  return (s || '').split('\n').length;
+}
+
+function containsAll(text, needles) {
+  return needles.every(n => text.includes(n));
+}
+
+// ---------- CHECKS ----------
+// Each check is a function (fileContent, parsedIfAny, filePath) => boolean.
+// Replace these stubs with real checks derived from the user's constraints.
+
+const CHECKS = {
+  // EXAMPLE — delete and replace:
+  // valid_json: (raw) => tryJson(raw) !== null,
+  // under_500_words: (raw) => wordCount(raw) <= 500,
+  // has_required_section: (raw) => raw.includes('## Summary'),
+  {{CHECK_STUBS}}
+};
+
+// ---------- runner ----------
+
+function evalFile(filePath) {
+  const raw = readFile(filePath);
+  if (raw === null) {
+    return {
+      file: filePath,
+      error: 'read_failed',
+      checks: Object.fromEntries(Object.keys(CHECKS).map(k => [k, false])),
+      passed: false,
+      failed_checks: Object.keys(CHECKS),
+    };
+  }
+
+  const checks = {};
+  const failed = [];
+  for (const [name, fn] of Object.entries(CHECKS)) {
+    let result = false;
+    try { result = !!fn(raw, filePath); }
+    catch (e) { result = false; }
+    checks[name] = result;
+    if (!result) failed.push(name);
+  }
+
+  return { file: filePath, checks, passed: failed.length === 0, failed_checks: failed };
+}
+
+const args = process.argv.slice(2);
+if (args.length === 0) {
+  console.error('Usage: node eval.mjs <file1> [file2 ...]');
+  process.exit(2);
+}
+for (const f of args) console.log(JSON.stringify(evalFile(f)));

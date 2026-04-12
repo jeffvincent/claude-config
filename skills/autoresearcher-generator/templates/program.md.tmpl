@@ -1,0 +1,94 @@
+# Autoresearch: {{SKILL_NAME}}
+
+Self-improving loop for the `{{SKILL_NAME}}` skill. Inspired by karpathy/autoresearch.
+
+## Concept
+
+- `Skill.md` in this directory is a **copy** of the real skill at `{{LIVE_SKILL_PATH}}`. You iterate on it. The live skill is never touched — the user promotes manually after the loop stops.
+- `eval.mjs` runs programmatic checks. Never modify it.
+- `judge-prompt.md` defines the qualitative rubric. Never modify it.
+- `inputs/pool.tsv` lists inputs to feed the skill. Never modify it. Rotate through them round-robin.
+- Each cycle runs on the current git branch. Improved result → advance. Worse → `git reset --hard HEAD~1`.
+
+## Hard rules
+
+- **Max {{MAX_CYCLES}} cycles per run.**
+- **Max {{MAX_CYCLE_MINUTES}} minutes per cycle.** If generation subagents haven't finished, kill and count missing files as failures.
+- **N = {{N_SAMPLES}} samples per cycle.** One input per cycle, generated {{N_SAMPLES}} times in parallel.
+- **Target: all {{N_SAMPLES}} samples pass all checks** on three consecutive cycles across three different inputs. Then stop.
+- **Do NOT modify** `eval.mjs`, `judge-prompt.md`, or `inputs/pool.tsv`.
+- **Do NOT touch the live skill** at `{{LIVE_SKILL_PATH}}`.
+- Write scratch outputs under `scratch/cycle-NN/sample-K.<ext>`. Do not commit scratch.
+
+## The checks
+
+Programmatic (via `node eval.mjs`):
+{{PROG_CHECK_LIST}}
+
+Qualitative (via judge subagent, see `judge-prompt.md`):
+{{JUDGE_CHECK_LIST}}
+
+A sample passes only if ALL checks pass.
+
+## The cycle loop
+
+For each cycle (1..{{MAX_CYCLES}}):
+
+### 1. Pick the input
+Round-robin through `inputs/pool.tsv`. Cycle N uses row `((N-1) mod <pool_size>) + 1`.
+
+### 2. Generate {{N_SAMPLES}} samples (parallel)
+Spawn {{N_SAMPLES}} **parallel** Task subagents in ONE message. Each gets:
+- The full contents of the current `Skill.md`.
+- The chosen input (content, or path if it's a file the subagent should read).
+- Instructions: "Using the skill above, produce the required output for this input. Write the result to `scratch/cycle-NN/sample-K.<ext>`. Return only the path."
+- Subagent type: `general-purpose`.
+- Tell each subagent to stay minimal — don't explore the repo, don't call extra tools.
+
+Cap the whole parallel batch at {{MAX_CYCLE_MINUTES}} minutes. Missing files = all checks fail for that slot.
+
+### 3. Run programmatic eval
+```
+node eval.mjs scratch/cycle-NN/sample-1.<ext> ... > scratch/cycle-NN/prog.jsonl
+```
+
+### 4. Run judge
+Spawn ONE Task subagent with:
+- Contents of `judge-prompt.md`.
+- The input used this cycle.
+- A summary of each sample suitable for judging (raw file for short outputs; extracted structure for long/binary).
+- Instructions: return JSON per `judge-prompt.md`. No prose.
+
+Parse the judge's JSON. For each sample, combined pass = all prog checks + all judge criteria.
+
+### 5. Log row to `results.tsv`
+Append:
+```
+cycle	<short-sha>	<input-slug>	<prog_pass_count>	<judge_pass_count>	<total_pass>	{{N_SAMPLES}}	<status>	<failure_summary>
+```
+
+### 6. Decide: keep or revert
+- First cycle on any input: always keep.
+- `total_pass` improved vs previous cycle on the SAME input: keep.
+- `total_pass` worse: `git reset --hard HEAD~1`. Log `discard`.
+
+### 7. Propose a skill revision (only if not {{N_SAMPLES}}/{{N_SAMPLES}})
+Spawn ONE "improver" Task subagent with:
+- Current `Skill.md`.
+- The judge's `failure_patterns` and programmatic failure counts.
+- Instructions: "Propose a MINIMAL targeted edit to Skill.md that addresses the recurring failures. Return an old_string/new_string pair or a unified diff. Edit one or two sections at most. No hedging, no whole-file rewrites."
+
+Apply the edit. Commit: `cycle NN: <one-line rationale>`.
+
+### 8. Early stop
+If a cycle hits {{N_SAMPLES}}/{{N_SAMPLES}}:
+1. Next cycle uses a different input (round-robin continues).
+2. If that also hits {{N_SAMPLES}}/{{N_SAMPLES}}, run one more on a third input.
+3. Three consecutive {{N_SAMPLES}}/{{N_SAMPLES}} on different inputs → STOP. Print final summary + Skill.md diff vs baseline.
+
+### 9. Hard stop
+After cycle {{MAX_CYCLES}}, stop. Print results.tsv, identify the best cycle, and show its diff vs baseline. Note whether branch tip is the best cycle.
+
+## Non-negotiable autonomy
+
+Once the loop begins, do NOT pause to ask the user if they want to continue. Run until the 3-in-a-row early stop or the {{MAX_CYCLES}}-cycle cap.
