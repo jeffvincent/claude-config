@@ -129,10 +129,11 @@ function loadCredentials(service) {
 /**
  * Get authenticated OAuth2 client with automatic token refresh and rotation handling.
  *
- * Instead of manually checking expiry and calling the deprecated refreshAccessToken(),
- * we set credentials (including refresh_token) and let google-auth-library handle refresh
- * transparently. The 'tokens' event listener captures any rotated refresh tokens so they
- * are persisted and never lost.
+ * Key behaviors:
+ * - Proactively refreshes expired/expiring tokens before returning the client
+ * - Explicitly saves refreshed credentials to disk (not just via event handler)
+ * - Re-reads tokens from disk in the event handler to avoid stale-closure overwrites
+ * - Handles missing expiry_date by forcing a refresh to validate the token
  */
 export async function getAuthClient(service, accountId = null) {
   const tokens = loadTokens(service, accountId);
@@ -144,23 +145,58 @@ export async function getAuthClient(service, accountId = null) {
 
   const targetAccount = accountId || getDefaultAccount(service);
 
-  // Listen for token refresh events — this is how we capture rotated refresh tokens
+  // Listen for token refresh events — captures rotated refresh tokens during API calls.
+  // Re-reads from disk to avoid overwriting tokens saved by a concurrent process.
   oauth2Client.on('tokens', (newTokens) => {
+    let currentTokens;
+    try {
+      currentTokens = loadTokens(service, targetAccount);
+    } catch {
+      currentTokens = tokens;
+    }
     const merged = {
-      ...tokens,
+      ...currentTokens,
       ...newTokens,
       // Preserve existing refresh_token if Google doesn't issue a new one
-      refresh_token: newTokens.refresh_token || tokens.refresh_token,
+      refresh_token: newTokens.refresh_token || currentTokens.refresh_token,
     };
     saveTokens(service, targetAccount, merged);
   });
 
-  // Force an initial token refresh if the access token is expired or about to expire,
-  // so the caller gets a working client immediately
+  // Proactively refresh if:
+  // - expiry_date is missing (can't verify token validity without trying)
+  // - access token is expired or expiring within 5 minutes
   const now = Date.now();
   const fiveMinutes = 5 * 60 * 1000;
-  if (tokens.expiry_date && (tokens.expiry_date - now) < fiveMinutes) {
-    await oauth2Client.getAccessToken();
+  const needsRefresh = !tokens.expiry_date || (tokens.expiry_date - now) < fiveMinutes;
+
+  if (needsRefresh) {
+    if (!tokens.refresh_token) {
+      throw new Error(
+        `No refresh_token found for ${service} account '${targetAccount}'. ` +
+        `Run: npm run setup`
+      );
+    }
+
+    try {
+      await oauth2Client.getAccessToken();
+    } catch (err) {
+      throw new Error(
+        `Token refresh failed for ${service} account '${targetAccount}': ${err.message}\n` +
+        `This usually means the refresh token has been revoked or expired.\n` +
+        `Re-authenticate with: npm run setup`
+      );
+    }
+
+    // Explicitly save the refreshed credentials — don't rely solely on the event handler.
+    // oauth2Client.credentials contains the full updated token set after refresh.
+    const refreshedCreds = oauth2Client.credentials;
+    const merged = {
+      ...tokens,
+      ...refreshedCreds,
+      refresh_token: refreshedCreds.refresh_token || tokens.refresh_token,
+    };
+    saveTokens(service, targetAccount, merged);
   }
 
   return oauth2Client;
