@@ -1,0 +1,11 @@
+{
+  "_comment": "Map friendly aliases to NotebookLM notebook IDs. Run 'python3 ~/.claude/skills/notebooklm-skill/lib/query.py list' to find IDs.",
+  "notebooks": {
+    "uxr-breeze": "ceb29937-d0e6-4e5c-bb84-5aab10c72353",
+    "ai-agent-landscape": "92f5517b-3ef2-4ff9-943c-8512736fa92e",
+    "ai-crm-intel": "88cd699d-6571-40ba-af49-20fa6fbe82df",
+    "agentic-automation": "4c0de644-63de-4f6b-a416-e80825306494",
+    "jtbd-personas": "508d3862-dad3-4d6a-9e57-b6ce706ca742",
+    "frontier-ai-jtbd": "ec7906c7-3c6c-4699-9aff-c6ee24310a3d"
+  }
+}
