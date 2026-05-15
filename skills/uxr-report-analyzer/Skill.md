@@ -26,8 +26,8 @@ Do NOT use this Skill when:
 - **Project Context**: Information about HubSpot's Overall Data Strategy and strategic objectives (available in project resources)
 
 ## Outputs
-- Structured markdown analysis file saved to `~/Projects/Knowledge System/resources/UXR Reports/Analysis/`
-- Filename format: `[Report_Name]_Analysis_[MM-YYYY].md`
+- Structured markdown analysis file saved to `~/Projects/Knowledge System/notes/customer-research/uxr-reports/analysis/`
+- Filename format: `YYYY-MM-DD-descriptive-title.md` (lowercase, hyphens, date-prefixed with today's date)
 - HTML comment summary at top for quick reference
 - Original PDF moved to `Reviewed Reports/` folder after analysis
 
@@ -39,7 +39,7 @@ Do NOT use this Skill when:
    - Question: "What is the URL of the original research report?"
    - Header: "Source URL"
    - Provide option to skip if URL doesn't exist
-3. Determine current month and year for filename (format: MM-YYYY)
+3. Note today's date for the filename prefix (format: YYYY-MM-DD)
 
 ### 2. Extract Report Content
 1. Use `mcp__prometheus__prometheus_extract_text` with appropriate settings:
@@ -108,7 +108,7 @@ Last Reviewed: [YYYY-MM-DD]
 7. **Connected Research**
    - List 3-5 related studies from the catalog
    - For each: title, brief description of connection
-   - Use actual research from `~/Projects/Knowledge System/resources/UXR Reports/Analysis/claude.md`
+   - Use actual research from `~/Projects/Knowledge System/notes/customer-research/uxr-reports/catalog.md`
 
 8. **Disconnected Research** (if applicable)
    - Highlight contradictions or challenges aligning with previous research
@@ -130,12 +130,12 @@ Last Reviewed: [YYYY-MM-DD]
 ### 6. Save Analysis and Move Original PDF
 
 **Step 1: Generate filename**
-- Format: `[Report_Name]_Analysis_[MM-YYYY].md`
-- Remove special characters, use underscores
-- Include current month-year (e.g., `11-2025`)
+- Format: `YYYY-MM-DD-descriptive-title.md` (today's date + lowercase hyphenated title)
+- Derive title from report name: lowercase, hyphens instead of spaces/underscores, drop "Analysis" suffix
+- Example: report named "Admin Journey Research" analyzed today (2026-05-15) → `2026-05-15-admin-journey-research.md`
 
 **Step 2: Save analysis file**
-- Location: `~/Projects/Knowledge System/resources/UXR Reports/Analysis/`
+- Location: `~/Projects/Knowledge System/notes/customer-research/uxr-reports/analysis/`
 - Use Write tool to create the analysis markdown file
 
 **Step 3: Move original PDF to archive**
@@ -151,14 +151,14 @@ After successfully creating the analysis, move the original PDF:
 
 ### 7. Update Catalog
 After creating analysis:
-1. Add entry to `~/Projects/Knowledge System/resources/UXR Reports/Analysis/claude.md`
+1. Add entry to `~/Projects/Knowledge System/notes/customer-research/uxr-reports/catalog.md`
 2. Include in appropriate category
 3. Update resource count and statistics
 
 ## Reference Materials
 - **Analysis Template**: See `resources/ANALYSIS_TEMPLATE.md` for detailed section structure
 - **Example Analysis**: See `resources/EXAMPLE_ANALYSIS.md` for a reference implementation
-- **UXR Catalog**: `~/Projects/Knowledge System/resources/UXR Reports/Analysis/claude.md`
+- **UXR Catalog**: `~/Projects/Knowledge System/notes/customer-research/uxr-reports/catalog.md`
 - **Project Context**: `~/Projects/Knowledge System/CLAUDE.md`
 - **Strategic Objectives**: `~/Projects/Knowledge System/resources/company-strategy/2026 Planning/claude.md`
 
@@ -176,7 +176,7 @@ Analyze this report: ~/Projects/Knowledge System/resources/UXR Reports/Reports t
 3. Extract text using prometheus_extract_text
 4. Read project context and strategic objectives
 5. Analyze content, identifying key themes (setup complexity, learning curves, time pressures)
-6. Generate analysis file: `Admin_Journey_Research_Analysis_11-2025.md`
+6. Generate analysis file: `2026-05-15-admin-journey-research.md`
 7. Save to Analysis folder using Write tool
 8. Move original PDF using Bash:
    ```bash
