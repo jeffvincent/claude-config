@@ -6,10 +6,21 @@
       "Source control: git.hubteam.com and github.com/HubSpotEngineering. Pushing to working branches (non master/main) on both is normal workflow.",
       "Developer workspace: ~/src/ contains cloned source repositories. Reading any file under ~/src/ is a normal cross-repo exploration workflow and is always safe.",
       "Trusted internal domains: *.hubspot.com, *.hubteam.com, *.hubteamqa.com, *.hubapi.com, *.hubspotqa.com, *.hubspot.net, *.hubspotcentral.com, *.grpc.hubspot.com, *.k8s.run",
-      "HubSpot CLI tools: bend (build/test/lint), chirp (RPC framework CLI), hsauthctl (auth tokens), lfetch (log search), bpx (dev tools runner), hs-local (local dev environment), uv (Python toolchain). Read-only operations with any of these tools are always safe. Build, test, lint, and auth token refresh are local-only mutations safe for normal development workflows."
+      "HubSpot CLI tools: bend (build/test/lint), chirp (RPC framework CLI), hsauthctl (auth tokens), lfetch (log search), bpx (dev tools runner), hs-local (local dev environment), uv (Python toolchain). Read-only operations with any of these tools are always safe. Build, test, lint, and auth token refresh are local-only mutations safe for normal development workflows.",
+      "Source control: git.hubteam.com and github.com. github.com/HubSpotEngineering is the primary org for deployed services \u2014 reviewing branches before merge is normal and expected. github.com/HubSpotShare is for personal tools and scripts shared between HubSpotters; no deployed services. Legacy git.hubteam.com orgs: HubSpot, HubSpotProtected, Looker. Pushing to working branches (non master/main) on git.hubteam.com and github.com/HubSpotEngineering is normal workflow.",
+      "HubSpot CLI tools: bend (build/test/lint), chirp (RPC framework CLI), hsauthctl (auth tokens), lfetch (log search), bpx (dev tools runner), hs-local (local dev environment), uv (Python toolchain), hubs (infra operations CLI). Read-only operations with any of these tools are always safe. Build, test, lint, and auth token refresh are local-only mutations safe for normal development workflows. The hubs CLI uses --confirm <nonce> for medium+ risk operations; when a command outputs APPROVAL_REQUIRED, you MUST present the action to the human operator and wait for them to confirm before re-running with --confirm \u2014 never supply the token without explicit human approval. The nonce is generated server-side by InfraAgentOracleRpc and is scoped to the specific command, hublet, and environment.",
+      "Source control: github.com. github.com/HubSpotEngineering is the primary org for deployed services \u2014 reviewing branches before merge is normal and expected. github.com/HubSpotShare is for personal tools and scripts shared between HubSpotters; no deployed services. Pushing to working branches (non master/main) on github.com/HubSpotEngineering is normal workflow."
     ]
   },
+  "availableModels": [
+    "claude-opus-4-6[1m]",
+    "claude-sonnet-4-6[1m]",
+    "claude-haiku-4-5",
+    "claude-opus-4-8[1m]",
+    "claude-opus-4-7[1m]"
+  ],
   "defaultMode": "plan",
+  "effortLevel": "high",
   "enabledPlugins": {
     "claude-api@anthropic-agent-skills": true
   },
@@ -86,6 +97,15 @@
           }
         ],
         "matcher": "WebFetch"
+      },
+      {
+        "hooks": [
+          {
+            "command": "python3 /Users/jvincent/.claude/hooks/ks-agent-log.py",
+            "type": "command"
+          }
+        ],
+        "matcher": "Skill"
       }
     ],
     "PreCompact": [
@@ -151,16 +171,26 @@
           }
         ],
         "matcher": "Edit|Write|MultiEdit"
-      }
-    ],
-    "SessionEnd": [
+      },
       {
         "hooks": [
           {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python3 /Users/jvincent/.local/bin/devex-hooks run devex-hooks__upload-transcript-session-end --agent claude_code",
+            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python3 /Users/jvincent/.local/bin/devex-hooks run devex-hooks__track-skill-usage --agent claude_code",
             "type": "command"
           }
-        ]
+        ],
+        "matcher": "Read|Skill"
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python3 /Users/jvincent/.local/bin/devex-hooks run devex-hooks__managed-rules-context --agent claude_code",
+            "type": "command"
+          }
+        ],
+        "matcher": "startup|resume|clear|compact"
       }
     ],
     "Stop": [
@@ -175,7 +205,7 @@
             "type": "command"
           },
           {
-            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python3 /Users/jvincent/.local/bin/devex-hooks run devex-hooks__upload-transcript-stop --agent claude_code",
+            "command": "/Users/jvincent/.local/share/uv/tools/devex-hooks/bin/python3 /Users/jvincent/.local/bin/devex-hooks run devex-hooks__telemetry-review-reminder --agent claude_code",
             "type": "command"
           },
           {
@@ -200,7 +230,7 @@
       }
     ]
   },
-  "model": "opus",
+  "model": "claude-sonnet-4-6[1m]",
   "permissions": {
     "allow": [
       "Bash(GH_HOST=git.hubteam.com gh pr diff:*)",
@@ -210,7 +240,10 @@
       "Bash(GH_HOST=github.com gh pr list:*)",
       "Bash(GH_HOST=github.com gh pr view:*)",
       "Bash(bend:*)",
+      "Bash(bpx browse:*)",
       "Bash(cat:*)",
+      "Bash(cd ~/.claude/skills/gmail-skill && node scripts/gmail-send.js --account work --to \"jvincent@hubspot.com\":*)",
+      "Bash(cd ~/.claude/skills/gmail-skill && node scripts/gmail-send.js --account work --to jvincent@hubspot.com:*)",
       "Bash(find:*)",
       "Bash(gh pr diff:*)",
       "Bash(gh pr list:*)",
@@ -231,6 +264,7 @@
       "Bash(git rev-parse:*)",
       "Bash(git rm:*)",
       "Bash(git stash:*)",
+      "Bash(hubs:*)",
       "Read(//Users/*/.agents/skills/dvx-*/**)",
       "Read(//Users/*/.claude/skills/dvx-*/**)",
       "Read(//Users/*/.hubspot/browser-cli/**)",
@@ -241,13 +275,17 @@
       "Read(//tmp/selenium-results-hs-test-job-id-*/**)",
       "mcp__devex-mcp-server"
     ],
+    "defaultMode": "auto",
     "deny": [
       "Read(*.pem)"
     ]
   },
+  "skillListingBudgetFraction": 0.5,
+  "skipAutoPermissionPrompt": true,
   "skipDangerousModePermissionPrompt": true,
   "statusLine": {
     "command": "bash ~/.claude/statusline-anchor.sh",
     "type": "command"
-  }
+  },
+  "tui": "fullscreen"
 }
