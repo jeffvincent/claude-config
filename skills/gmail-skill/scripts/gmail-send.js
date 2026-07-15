@@ -58,12 +58,19 @@ function markdownToHtml(md) {
   return `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;color:#333;max-width:680px;">\n${html}\n</div>`;
 }
 
+function encodeHeader(value) {
+  if (/[^\x00-\x7F]/.test(value)) {
+    return `=?UTF-8?B?${Buffer.from(value, 'utf-8').toString('base64')}?=`;
+  }
+  return value;
+}
+
 function createEmailMessage(to, subject, body, options = {}) {
   const { cc, bcc, html, replyTo } = options;
 
   const headers = [
     `To: ${to}`,
-    `Subject: ${subject}`,
+    `Subject: ${encodeHeader(subject)}`,
   ];
 
   if (cc) headers.push(`Cc: ${cc}`);
