@@ -45,7 +45,12 @@ Do NOT use this skill for:
 ## Instructions for Claude
 
 ### Step 0: Check if Import is Needed and Fetch Article Content (CRITICAL)
-Before analyzing, determine if the content needs to be imported first, and if it's an article, fetch the full content:
+Before analyzing, determine if the content needs to be imported first, and if it's an article, fetch the full content.
+
+First, load Readwise MCP tools:
+```
+ToolSearch("select:mcp__readwise__reader_search_documents,mcp__readwise__reader_get_document_details,mcp__readwise__reader_get_document_highlights")
+```
 
 **A. If user provides a title/name (e.g., "analyze 'machines loving grace' from Readwise")**:
 1. Search for existing source document in sources/ directory:
@@ -53,20 +58,18 @@ Before analyzing, determine if the content needs to be imported first, and if it
    Glob: /Users/jvincent/Projects/Knowledge System/notes/content notes/sources/*_Readwise.md
    ```
 2. Check if any filename matches the title (case-insensitive, fuzzy match)
-3. **If NOT found locally**: Search local Readwise index and import
-   - Search index: `cd ~/.claude/skills/readwise-skill/scripts && python3 search.py --query "machines loving"`
+3. **If NOT found locally**: Search Readwise via MCP and import
+   - Search: `reader_search_documents` with the title as query
    - Show results to user for confirmation
-   - Get book_id and source_url from search results
+   - Get document ID and URL from results
+   - Fetch highlights: `reader_get_document_highlights` with document ID
    - **If article with URL**: Use WebFetch to get full article content
-   - Import with content: `python3 import_item.py --book-id [id] --output-dir ".../sources"`
+   - Create local source file using the `readwise-skill` format (see that skill for the file template)
    - Commit the import to git
    - Then proceed to analysis (Step 1 below)
 4. **If found locally**: Check if article needs content added
    - Read the source document
-   - If "Full Article Content" section says "_To be fetched from..._"
-   - Use WebFetch to get article content
-   - Edit document to add full content
-   - Commit the update
+   - If article and URL exists but content is sparse, use WebFetch to get full article
    - Then proceed to analysis (Step 1 below)
 
 **B. If user provides a file path**: Skip to Step 1 (already imported)
@@ -77,11 +80,11 @@ User: "analyze 'machines of loving grace' from readwise"
 
 Claude:
 1. Searches sources/ directory - not found
-2. Searches local index: python3 search.py --query "machines loving"
+2. Calls reader_search_documents("machines of loving grace")
 3. Shows: "Found: Machines of Loving Grace by Dario Amodei (15 highlights, URL: https://...)"
 4. User confirms
-5. WebFetch: Retrieves full article from URL
-6. Imports: python3 import_item.py --book-id 12345 ... (with article content)
+5. Calls reader_get_document_highlights(document_id) — gets all 15 highlights
+6. WebFetch: Retrieves full article from URL
 7. Creates: sources/2026-02-25_Dario-Amodei_Machines-Loving-Grace_Readwise.md
 8. Commits import
 9. Proceeds to analysis with FULL article text + 15 highlights

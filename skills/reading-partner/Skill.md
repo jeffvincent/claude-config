@@ -32,9 +32,13 @@ When the user invokes this skill, they may provide:
 
 2. **If content NOT found locally:**
    - Ask the user if they'd like you to import it from Readwise
-   - If they approve, invoke the `readwise-skill` to import the content
-   - Then invoke the `readwise-content-analyzer` skill to analyze it and create synthesis connections
-   - Wait for both to complete before proceeding
+   - If they approve:
+     - Load Readwise MCP tools: `ToolSearch("select:mcp__readwise__reader_search_documents,mcp__readwise__reader_get_document_highlights")`
+     - Search: `reader_search_documents` with the content title/topic
+     - Confirm match with user, then `reader_get_document_highlights` to fetch highlights
+     - Create a local source file using the `readwise-skill` output format
+     - Then invoke `readwise-content-analyzer` to analyze and create synthesis connections
+   - Wait for analysis to complete before proceeding to Phase 1
 
 3. **If content IS found:**
    - Proceed directly to Phase 1
