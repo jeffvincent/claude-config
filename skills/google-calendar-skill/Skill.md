@@ -160,6 +160,45 @@ node calendar-events-create.js \
   --start "2025-11-20T14:00:00-08:00" \
   --end "2025-11-20T15:00:00-08:00" \
   --addMeet
+
+# Recurring event (weekly standup)
+node calendar-events-create.js \
+  --summary "Weekly Standup" \
+  --start "2026-09-08T09:00:00-07:00" \
+  --end "2026-09-08T09:30:00-07:00" \
+  --repeat weekly
+
+# Recurring with end date
+node calendar-events-create.js \
+  --summary "Sprint Planning" \
+  --start "2026-09-08T10:00:00-07:00" \
+  --end "2026-09-08T11:00:00-07:00" \
+  --repeat biweekly \
+  --until "2026-12-31"
+
+# Recurring with count limit
+node calendar-events-create.js \
+  --summary "Onboarding Session" \
+  --start "2026-09-08T14:00:00-07:00" \
+  --end "2026-09-08T15:00:00-07:00" \
+  --repeat weekly \
+  --count 4
+```
+
+### Recurrence Options
+
+`--repeat` accepts: `daily`, `weekdays`, `weekly`, `biweekly`, `monthly`, `yearly`
+
+Use `--until YYYY-MM-DD` or `--count N` to limit how long the series runs.
+
+For custom patterns, use `--recurrence` with raw RRULE syntax:
+```bash
+# Every Monday and Wednesday
+node calendar-events-create.js \
+  --summary "Gym" \
+  --start "2026-09-08T07:00:00-07:00" \
+  --end "2026-09-08T08:00:00-07:00" \
+  --recurrence "RRULE:FREQ=WEEKLY;BYDAY=MO,WE"
 ```
 
 ### Update Event

@@ -80,9 +80,34 @@ async function createEvent(args) {
     };
   }
 
-  // Optional recurrence (RRULE format)
+  // Optional recurrence - supports raw RRULE or --repeat shorthand
   if (args.recurrence) {
-    event.recurrence = [args.recurrence];
+    const rule = args.recurrence.startsWith('RRULE:') ? args.recurrence : `RRULE:${args.recurrence}`;
+    event.recurrence = [rule];
+  } else if (args.repeat) {
+    const repeatRules = {
+      daily: 'RRULE:FREQ=DAILY',
+      weekdays: 'RRULE:FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR',
+      weekly: 'RRULE:FREQ=WEEKLY',
+      biweekly: 'RRULE:FREQ=WEEKLY;INTERVAL=2',
+      monthly: 'RRULE:FREQ=MONTHLY',
+      yearly: 'RRULE:FREQ=YEARLY',
+      annually: 'RRULE:FREQ=YEARLY',
+    };
+    const rule = repeatRules[args.repeat.toLowerCase()];
+    if (!rule) {
+      throw new Error(`Unknown --repeat value: "${args.repeat}". Valid: daily, weekdays, weekly, biweekly, monthly, yearly`);
+    }
+    event.recurrence = [rule];
+  }
+
+  // Optional recurrence end (used with --repeat or --recurrence)
+  if (event.recurrence && (args.until || args.repeatUntil)) {
+    const untilDate = (args.until || args.repeatUntil).replace(/-/g, '');
+    event.recurrence[0] += `;UNTIL=${untilDate}`;
+  }
+  if (event.recurrence && args.count) {
+    event.recurrence[0] += `;COUNT=${args.count}`;
   }
 
   // Optional color
