@@ -25,12 +25,14 @@ Generate well-researched competitive intelligence briefings in two formats:
 Always read OVERVIEW.md at the start of any briefing to get current tier assignments — do not use a hardcoded list. The OVERVIEW.md file defines:
 - **Tier 1** — Full research (weekly pulse + monthly deep dive): 3 searches per competitor
 - **Tier 2** — Urgency check only (monthly): 1-2 searches per competitor
+- **Agentic Market Watch** — Personal agent platforms + platform lifecycle signals (monthly): check every.to comparison + AI lab blogs
 
 **Competitive taxonomy (4 quadrants used by HubSpot CI team):**
 - Upmarket Incumbents: Enterprise CRMs, direct competition
 - Downmarket Incumbents: Traditional + emerging lighter tools
 - Frontier Platforms: LLMs as GTM orchestration layer (Claude, ChatGPT, Gemini)
 - AI-Native Upstarts: Sub-categories: AEO, Prospecting, Service, AI CRM, Marketing Automation, Agentic Implementation
+- **Personal Agent Platforms:** Direct-to-consumer autonomous agents from frontier labs (Dot, Gemini Spark, Grok Bot, Muse, etc.) — market signal sources, not deal-mix competitors
 
 When writing a briefing, organize findings under these quadrants, not just by individual competitor name.
 
@@ -53,6 +55,52 @@ When writing a briefing, organize findings under these quadrants, not just by in
 **Web traffic step (monthly):**
 - Check SimilarWeb for Q/Q unique visitor growth for all Tier 1 competitors
 - Use as a leading indicator — traffic precedes deal data by 1–2 quarters
+
+---
+
+## Agentic Automation Market Watch (Monthly)
+
+This section tracks the **personal agent and autonomous agent landscape** from frontier AI labs. These products don't appear in HubSpot deal data yet — but they reveal which agentic UX patterns are winning, which approaches are failing, and what user expectations will look like in 12–18 months.
+
+### Sources to Check Each Month
+
+1. **[every.to/personal-agents-comparison](https://every.to/personal-agents-comparison)** — Maintained comparison of consumer/prosumer personal agent products across 8 products (Dot, Gemini Spark, Grok Bot, Muse, Poke, Hermes, OpenClaw, Instinct). Check for new entrants or removed products monthly.
+
+2. **AI Lab blogs** (check for announcements within the briefing period):
+   - OpenAI: openai.com/blog + Dev Day events (typically spring/fall)
+   - Anthropic: anthropic.com/news
+   - Google DeepMind / Google AI: blog.google/technology/ai
+   - xAI: x.ai/news
+   - Meta AI: ai.meta.com/blog
+
+3. **Platform deprecation signals** — search `"[product name] deprecated" OR "shutting down" OR "discontinued"` for any known personal agent or workspace agent products
+
+### What to Track
+
+| Signal Type | What It Means |
+|---|---|
+| 🚀 **Launch** | New personal agent or major agentic capability shipped | Reveals the bet the lab is making on interaction model |
+| 💀 **Death** | Product deprecated, cancelled, or pivoted away from | Reveals what doesn't work; reduces threat surface |
+| 🔄 **Pivot** | Strategy shift (e.g., workspace → personal, assistant → autonomous) | Leading indicator of where lab is concentrating |
+| 💰 **Pricing change** | New pricing model for agentic products | Signals GTM maturity and monetization thesis |
+| 🤝 **Distribution deal** | New channel for personal agent (e.g., Slack, WhatsApp) | Amplifies reach; changes competitive surface area |
+
+### Platform Lifecycle Log
+
+Always read and update the Platform Lifecycle Log in OVERVIEW.md (`## Platform Lifecycle Log`). Add new rows when signals are detected. The log tracks what's been launched, what's been killed, and the strategic pattern.
+
+### Briefing Inclusion Rule
+
+Include an **Agentic Automation Market Pulse** section in the briefing when 2+ platform signals are present in the research period. This section replaces (not supplements) the standard Frontier Platforms analysis for that week/month — they are the same quadrant.
+
+### Strategic Lens for Personal Agent Signals
+
+Apply the **Extend vs. Replace** framework (Framework #5) to personal agent launches:
+- **Does this agent integrate with CRM data?** → Potential extend play for HubSpot (be the system of record the agent reads/writes)
+- **Does this agent replace CRM workflows for individuals?** → Replace risk; segment by EA vs. Majority adoption curve
+- **Does this agent signal a UX pattern shift?** → Roadmap input — if Dot/Muse/Grok Bot converge on "always-on proactive scheduling," that's a signal for what Breeze Agents should feel like
+
+Always tie personal agent signals back to one of these three questions: **What UX pattern is winning? What approach is dying? What does this mean for Breeze Agents specifically?**
 
 ---
 
@@ -143,6 +191,12 @@ Product Response: [specific feature/roadmap implication]
 SUPPORTING UPDATES (1-2)
 For each: [Competitor] | THE SIGNAL: [1-2 sentences] | IMPLICATION: [1 sentence]
 
+AGENTIC AUTOMATION MARKET PULSE [include only if 2+ personal agent signals this week]
+🚀 Launches: [product] (company) — [1 sentence on what it is + what bet it reveals]
+💀 Deaths/Pivots: [product] (company) — [1 sentence on what failed + strategic read]
+Pattern: [1–2 sentence synthesis — what is the market teaching us this week?]
+Breeze Agents implication: [1 sentence tied to UX pattern, interaction model, or roadmap]
+
 VELOCITY CHECK
 - Any web traffic movement worth noting (from SimilarWeb checks if run)
 - Any funding or launch signals
@@ -186,6 +240,16 @@ Key Learnings:
 Offense/Defense: [⚔️ / 🛡️ or both]
 
 [Repeat for Deep Dive #2 and #3]
+
+AGENTIC AUTOMATION MARKET PULSE [include if 2+ personal agent signals this month]
+Platform Launches:
+- [Product] (Company) — 🚀 [what shipped + what UX/interaction bet it reveals]
+
+Platform Deaths / Pivots:
+- [Product] (Company) — 💀 / 🔄 [what died/pivoted + why it matters]
+
+Pattern This Month: [2–3 sentence synthesis — what is the frontier lab market teaching us?]
+Breeze Agents Implication: [specific UX, interaction model, or roadmap signal for HubSpot]
 
 EXTEND vs. REPLACE ANALYSIS [required if any frontier/LLM competitor in findings]
 - Use case classification: extend (augments HubSpot) vs. replace (bypasses HubSpot)
@@ -306,6 +370,9 @@ Before delivering any briefing, verify:
 - [ ] Primary sources cited (company blogs, press releases, verified tech news)
 - [ ] SimilarWeb web traffic checked for Tier 1 competitors (monthly only)
 - [ ] Confidence levels noted: VERIFIED / LIKELY / UNVERIFIED
+- [ ] Agentic Market Watch: checked every.to/personal-agents-comparison for updates (monthly)
+- [ ] Agentic Market Watch: scanned AI lab blogs (OpenAI, Anthropic, Google, xAI, Meta) for launches/deaths
+- [ ] Platform Lifecycle Log in OVERVIEW.md updated with any new signals
 
 **Analytical Frameworks:**
 - [ ] Every finding uses Signal → Why → Implication structure
@@ -314,6 +381,7 @@ Before delivering any briefing, verify:
 - [ ] Frontier/LLM findings include Extend vs. Replace analysis
 - [ ] Any EA behavioral data is flagged as EA vs. Majority
 - [ ] Any web traffic data is noted as leading indicator
+- [ ] Personal agent signals tied to one of three questions: UX pattern winning? Approach dying? Breeze Agents implication?
 
 **Format:**
 - [ ] Inline HTML format (no <!DOCTYPE> or <html> wrapper)
