@@ -20,16 +20,16 @@ const SCOPES = [
   'https://www.googleapis.com/auth/gmail.settings.basic'
 ];
 
-function promptEmail() {
+function prompt(question) {
   return new Promise((resolve) => {
     const rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout
     });
 
-    rl.question('📧 Enter the email address for this account: ', (email) => {
+    rl.question(question, (answer) => {
       rl.close();
-      resolve(email.trim());
+      resolve(answer.trim());
     });
   });
 }
@@ -37,9 +37,15 @@ function promptEmail() {
 async function setupOAuth(accountId, userEmail = null) {
   console.log('\n🔐 Gmail OAuth Setup\n');
 
-  if (accountId) {
-    console.log(`Setting up account: ${accountId}\n`);
+  // Prompt for account ID if not provided via --account flag.
+  // Without this, users who ran `npm run setup` interactively all
+  // ended up overwriting the 'default' slot regardless of email.
+  let resolvedAccountId = accountId;
+  if (!resolvedAccountId) {
+    const answer = await prompt('🏷️  Enter account ID (e.g. work, personal) [default]: ');
+    resolvedAccountId = answer || 'default';
   }
+  console.log(`Setting up account: ${resolvedAccountId}\n`);
 
   // Check if credentials.json exists
   if (!existsSync(CREDENTIALS_PATH)) {
@@ -77,7 +83,7 @@ async function setupOAuth(accountId, userEmail = null) {
   console.log(authUrl + '\n');
 
   // Prompt for email if not provided
-  const email = userEmail || await promptEmail();
+  const email = userEmail || await prompt('📧 Enter the email address for this account: ');
 
   // Start local server to receive callback
   const server = createServer(async (req, res) => {
@@ -95,7 +101,7 @@ async function setupOAuth(accountId, userEmail = null) {
         const { tokens } = await oauth2Client.getToken(code);
 
         // Save tokens with account ID
-        const targetAccountId = accountId || 'default';
+        const targetAccountId = resolvedAccountId;
         saveTokens(targetAccountId, tokens, email);
 
         // List all accounts
