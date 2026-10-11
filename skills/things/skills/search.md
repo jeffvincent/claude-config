@@ -1,103 +1,66 @@
 ---
-name: things-search
-description: Search tasks in Things 3 with keyword and filter options
-version: 1.0.0
-allowed-tools: [Bash]
+name: todoist-search
+description: Search tasks in Todoist with keyword and filter options
+version: 2.0.0
+allowed-tools: [mcp__claude_ai_Todoist__find-tasks, mcp__claude_ai_Todoist__find-tasks-by-date]
 ---
 
-# Search Tasks in Things 3
+# Search Tasks in Todoist
 
-Find tasks using keywords and powerful filtering options.
+Find tasks using keywords and filtering options.
 
 ## How to Search Tasks
 
-```python
-import os, sys
-sys.path.insert(0, os.path.expanduser('~/.claude/skills/things/lib'))
-from reader import ThingsReader
-from helpers import ThingsFormatter
+Call `mcp__claude_ai_Todoist__find-tasks` with:
 
-# Search with filters
-results = ThingsReader.search(
-    query="blog",           # Required: search term
-    status="incomplete",    # Optional: incomplete, completed, canceled
-    area="Work",            # Optional: filter by area name
-    project="Content",      # Optional: filter by project name
-    tag="urgent"            # Optional: filter by tag name
-)
+```
+searchText: "blog"        # keyword search in title/description
+label: "work"             # filter by label
+projectId: "..."          # filter by project
+isCompleted: false        # incomplete tasks (default)
+```
 
-# Display results
-if results:
-    print(f"Found {len(results)} task(s) matching 'blog'\n")
-    print(ThingsFormatter.format_task_list(results, verbose=True, show_uuid=True))
-else:
-    print("No tasks found matching your criteria.")
+For date-based search, use `find-tasks-by-date`:
+```
+startDate: "2026-05-01"
+endDate: "2026-05-31"
 ```
 
 ## Available Filters
 
 | Filter | Description | Example |
 |--------|-------------|---------|
-| `query` | Keyword in title/notes | "blog" |
-| `status` | Task status | incomplete, completed, canceled |
-| `area` | Filter by area | "Work", "Personal" |
-| `project` | Filter by project | "Marketing" |
-| `tag` | Filter by tag | "urgent" |
+| `searchText` | Keyword in title/description | "blog" |
+| `label` | Filter by label | "work", "meeting" |
+| `projectId` | Filter by project | inbox or project ID |
+| `isCompleted` | Task status | false (default) |
 
 ## Instructions
 
 1. **Parse** the user's search request for keywords and filters
-2. **Search** using `ThingsReader.search()` with appropriate parameters
-3. **Display** results with `ThingsFormatter.format_task_list()`
-4. **Include UUIDs** for follow-up actions
-5. **Suggest** broadening search if no results
+2. **Search** using `find-tasks` with appropriate parameters
+3. **Display** results clearly
+4. **Suggest** broadening search if no results found
 
 ## Examples
 
 **User**: "Find all tasks with 'meeting' in them"
-```python
-results = ThingsReader.search(query="meeting")
+```
+searchText: "meeting"
+isCompleted: false
 ```
 
-**User**: "Show incomplete tasks in Marketing area tagged urgent"
-```python
-results = ThingsReader.search(
-    query="",  # Empty query matches all
-    status="incomplete",
-    area="Marketing",
-    tag="urgent"
-)
-```
+**User**: "Show work tasks due this week"
+Use `find-tasks-by-date` with `startDate="today"` and `endDate="[end of week]"`, then filter results by `label: "work"`.
 
 **User**: "What completed tasks mention 'deployment'?"
-```python
-results = ThingsReader.search(
-    query="deployment",
-    status="completed"
-)
 ```
-
-## Example Output
-
-```
-Found 3 task(s) matching 'blog'
-
-[ ] Write blog post [ABC-123]
-    Focus on API design patterns
-    Tags: writing, work
-    Project: Content Creation
-    Area: Work
-
-[ ] Edit blog images [DEF-456]
-    Project: Content Creation
-
-[x] Research blog topics [GHI-789]
-    Found 5 good topics
-    Tags: research
+searchText: "deployment"
+isCompleted: true
 ```
 
 ## Pro Tips
 
-- Empty query ("") with filters browses by area/project/tag
-- Default to `status="incomplete"` unless user asks for completed
-- Combine filters to narrow large lists
+- Default to incomplete tasks unless user asks for completed
+- Combine label + searchText for precise results
+- Use `find-completed-tasks` for historical queries

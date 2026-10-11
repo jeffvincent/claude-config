@@ -1,86 +1,83 @@
 ---
-name: things-add-task
-description: Add a new task to Things 3 with notes, tags, dates, deadlines, and checklists
-version: 1.0.0
-allowed-tools: [Bash]
+name: todoist-add-task
+description: Add a new task to Todoist with description, labels, due date, deadline, and priority
+version: 2.0.0
+allowed-tools: [mcp__claude_ai_Todoist__add-tasks]
 ---
 
-# Add Task to Things 3
+# Add Task to Todoist
 
-Create a new task in Things 3 based on the user's natural language request.
+Create a new task in Todoist based on the user's natural language request.
 
 ## Available Parameters
 
 | Parameter | Required | Description | Example |
 |-----------|----------|-------------|---------|
-| `title` | Yes | Task title | "Write blog post" |
-| `notes` | No | Detailed notes | "Focus on API design" |
-| `when` | No | Schedule date | today, tomorrow, evening, anytime, someday, YYYY-MM-DD |
-| `deadline` | No | Due date | "2025-12-01" |
-| `tags` | No | List of tags | ["work", "urgent"] |
-| `list_name` | No | Project or area | "Marketing" |
-| `checklist_items` | No | Subtasks | ["Step 1", "Step 2"] |
+| `content` | Yes | Task title | "Write blog post" |
+| `description` | No | Detailed notes/context | "Focus on API design" |
+| `dueString` | No | Movable due date (natural language) | "tomorrow", "next Monday", "in 3 days" |
+| `deadlineDate` | No | Immovable hard deadline (ISO) | "2026-06-01" |
+| `labels` | No | List of labels | ["work", "meeting"] |
+| `priority` | No | p1 (highest) to p4 (lowest) | "p2" |
+
+**Due date vs. Deadline:**
+- Use `dueString` for regular action items (movable)
+- Use `deadlineDate` for meeting-prep tasks and fixed commitments (immovable)
 
 ## How to Add a Task
 
-```python
-import os, sys
-sys.path.insert(0, os.path.expanduser('~/.claude/skills/things/lib'))
-from writer import ThingsWriter
+Call `mcp__claude_ai_Todoist__add-tasks` directly:
 
-# Add a task
-ThingsWriter.add_task(
-    title="Write blog post",
-    notes="Focus on API design patterns",
-    when="today",
-    tags=["writing", "work"]
-)
-
-print("Task added to Things!")
+```
+tasks: [
+  {
+    content: "Write blog post",
+    description: "Focus on API design patterns",
+    dueString: "tomorrow",
+    labels: ["work"],
+    priority: "p3"
+  }
+]
 ```
 
 ## Instructions
 
 1. **Parse** the user's request to extract task details
-2. **Call** `ThingsWriter.add_task()` with appropriate parameters
+2. **Call** `mcp__claude_ai_Todoist__add-tasks` with appropriate parameters
 3. **Confirm** the task was added successfully
-4. **Ask** clarifying questions if the request is ambiguous
 
 ## Examples
 
-**User**: "Add a task to call the dentist tomorrow with tag health"
-```python
-ThingsWriter.add_task(
-    title="Call dentist",
-    when="tomorrow",
-    tags=["health"]
-)
+**User**: "Add a task to call the dentist tomorrow, label health"
+```
+content: "Call dentist"
+dueString: "tomorrow"
+labels: ["health"]
 ```
 
-**User**: "Create task to review Q4 report in Work project, due December 1st"
-```python
-ThingsWriter.add_task(
-    title="Review Q4 report",
-    list_name="Work",
-    deadline="2025-12-01"
-)
+**User**: "Create task to review Q4 report, hard deadline December 1st"
+```
+content: "Review Q4 report"
+deadlineDate: "2025-12-01"
+labels: ["work"]
 ```
 
-**User**: "Add 'Plan vacation' with checklist: book flights, reserve hotel, pack"
-```python
-ThingsWriter.add_task(
-    title="Plan vacation",
-    checklist_items=["Book flights", "Reserve hotel", "Pack bags"]
-)
+**User**: "Add 'Prep for Thursday sync' with note 'bring draft agenda', due Wednesday, p2"
+```
+content: "Prep for Thursday sync"
+description: "Bring draft agenda"
+dueString: "Wednesday"
+priority: "p2"
+labels: ["work", "meeting"]
 ```
 
 ## Output
 
 Confirm success:
 ```
-Task added to Things!
+Task added to Todoist!
 
 Title: Call dentist
-Scheduled: Tomorrow
-Tags: health
+Due: Tomorrow
+Labels: health
 ```

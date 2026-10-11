@@ -1,29 +1,23 @@
 ---
-name: things-3-manager
-description: "macOS only: Manage Things 3 tasks - add, search, list, and complete tasks using natural language. Requires Things 3 app installed."
-version: 2.0.0
+name: todoist-manager
+description: "Manage Todoist tasks — add, search, list, complete, and reschedule tasks using natural language. Uses Todoist MCP tools."
+version: 3.0.0
 location: user
-allowed-tools: [Bash, Read, Write]
+allowed-tools: [mcp__claude_ai_Todoist__add-tasks, mcp__claude_ai_Todoist__find-tasks, mcp__claude_ai_Todoist__find-tasks-by-date, mcp__claude_ai_Todoist__complete-tasks, mcp__claude_ai_Todoist__reschedule-tasks, mcp__claude_ai_Todoist__update-tasks, mcp__claude_ai_Todoist__get-overview, mcp__claude_ai_Todoist__find-completed-tasks]
 ---
 
-# Things 3 Task Management (macOS Only)
+# Todoist Task Management
 
-Manage your Things 3 tasks through natural language. This skill dispatches to focused sub-skills for specific operations.
-
-**Platform:** macOS only (Things 3 is a Mac app)
+Manage tasks in Todoist through natural language. Uses Todoist MCP tools directly — no Python library required.
 
 ## When to Apply
 
 Use this skill when:
-- User is on macOS with Things 3 installed
-- User wants to add/create tasks or projects
+- User wants to add/create tasks
 - User wants to view today's tasks or inbox
 - User wants to search for tasks
-- User wants to complete/mark tasks as done
-
-**Do NOT use when:**
-- User is on Windows/Linux (Things 3 not available)
-- User mentions other task apps (Todoist, OmniFocus, etc.)
+- User wants to complete or reschedule tasks
+- User wants an overview of open work
 
 ## Sub-Skills
 
@@ -33,49 +27,25 @@ Use this skill when:
 | View today | `skills/list-today.md` | "What's on my plate today?" |
 | View inbox | `skills/list-inbox.md` | "Show my inbox" |
 | Search tasks | `skills/search.md` | "Find tasks tagged urgent" |
-| Complete tasks | `skills/complete-task.md` | "Mark task ABC-123 done" |
+| Complete tasks | `skills/complete-task.md` | "Mark task done" |
 
-## Quick Reference
+## Key Todoist Concepts
 
-### Library Imports
-```python
-import os, sys
-sys.path.insert(0, os.path.expanduser('~/.claude/skills/things/lib'))
+**Due date vs. Deadline:**
+- `dueString` — movable due date (natural language: "tomorrow", "next Monday", "in 3 days")
+- `deadlineDate` — immovable hard constraint (ISO format: "2026-06-01") — use for meeting-prep tasks and fixed commitments
 
-from reader import ThingsReader   # Database queries
-from writer import ThingsWriter   # URL scheme operations
-from helpers import ThingsFormatter  # Display formatting
-```
+**Scheduling:**
+- Always use `reschedule-tasks` (not `update-tasks`) when moving a task to a different date — preserves recurrence patterns
+- Use `update-tasks` only for non-date changes (title, description, priority, labels)
 
-### Common Operations
-```python
-# List tasks
-tasks = ThingsReader.get_today()
-tasks = ThingsReader.get_inbox()
-tasks = ThingsReader.search(query="blog", status="incomplete")
+**Labels:** `work`, `meeting`, `weekly-plan`, `knowledge-system`, `grove`
 
-# Add task
-ThingsWriter.add_task(title="New task", when="today", tags=["work"])
-
-# Complete task
-ThingsWriter.complete_task("task-uuid")
-
-# Format output
-print(ThingsFormatter.format_task_list(tasks, verbose=True, show_uuid=True))
-```
-
-## Setup
-
-See `README.md` for installation and configuration instructions.
-
-**Quick install:**
-```bash
-cd ~/.claude/skills/things && pip3 install -r requirements.txt
-```
+**Priorities:** `p1` (highest) → `p4` (lowest/default). Always pass as strings, not integers.
 
 ## Identifying Discrete Tasks
 
-**IMPORTANT:** Not everything that looks like an action item should become a Things task. Apply these filters:
+**IMPORTANT:** Not everything that looks like an action item should become a task. Apply these filters:
 
 ### ✅ Create Tasks For
 
@@ -84,8 +54,6 @@ cd ~/.claude/skills/things && pip3 install -r requirements.txt
 - "Schedule meeting with X"
 - "Send email to Y about Z"
 - "Review document and provide feedback"
-- "Update spreadsheet with Q4 data"
-- "Create presentation for board meeting"
 
 **Characteristics of real tasks:**
 - Has a verb + specific object
@@ -95,64 +63,20 @@ cd ~/.claude/skills/things && pip3 install -r requirements.txt
 
 ### ❌ Do NOT Create Tasks For
 
-**Strategic mindsets / ongoing approaches:**
-- "Own entire product mentality"
-- "Feel pain when platform inconsistent"
-- "Think about cross-product-line value"
-- "Be more responsive"
-- "Pick more fights"
+- Strategic mindsets / ongoing approaches ("Own entire product mentality")
+- Framing guidance ("Frame work using X framing")
+- Conceptual frameworks ("Prioritize by user exposure")
 
-**Framing guidance / communication style:**
-- "Frame work using X framing"
-- "Apply Y test measurement"
-- "Use Z terminology when discussing"
-- "Position work as competitive necessity"
-
-**Conceptual frameworks:**
-- "Prioritize by user exposure"
-- "Focus on crawl-walk-run"
-- "Consider frequency × breadth"
-
-**Why these aren't tasks:**
-- No discrete completion point
-- Ongoing mental models or approaches
-- How to think/communicate, not what to do
-- Can't check off as "done"
-
-### Examples from Real Meetings
-
-**From "Jeff - deliver these 7 things":**
-
-| Item | Real Task? | Reasoning |
-|------|-----------|-----------|
-| "Deliver plan by Jan 17" | ✅ Yes | Discrete deliverable with deadline |
-| "Frame all work using X framing" | ❌ No | Communication style, not action |
-| "Apply Jeff Bell Test measurement" | ❌ No | Ongoing evaluation approach |
-| "Own entire product mentality" | ❌ No | Mindset shift, not discrete action |
-| "Schedule 3-hour working session" | ✅ Yes | Specific action with completion |
-| "Prioritize by user exposure" | ❌ No | Prioritization framework |
-| "Figure out skeleton key scope" | ⚠️ Maybe | Could be discrete if time-boxed research task |
-
-### When Uncertain
-
-Ask yourself:
-1. **Can I mark this "done" at a specific moment?** If no → not a task
-2. **Does this have a verb + deliverable?** If no → not a task
-3. **Is this how to think vs what to do?** If "how to think" → not a task
-4. **Would completing this once be sufficient?** If no (ongoing) → not a task
-
-**Exceptions:**
-- "Figure out X" CAN be a task if it's time-boxed research with deliverable (e.g., "Spend 2 hours figuring out skeleton key scope, write up findings")
-- "Review X and decide Y" CAN be a task (discrete decision point)
+**When uncertain:** Can I mark this "done" at a specific moment? If no → not a task.
 
 ## Dispatching
 
-When user requests Things 3 operations:
+When user requests Todoist operations:
 
 1. **Identify intent** from natural language
-2. **Filter for discrete tasks** (see "Identifying Discrete Tasks" above)
+2. **Filter for discrete tasks** (see above)
 3. **Read the appropriate sub-skill** for detailed instructions
-4. **Execute** using the library functions
+4. **Execute** using the Todoist MCP tools
 5. **Report results** clearly to user
 
 ### Intent Mapping
@@ -164,9 +88,3 @@ When user requests Things 3 operations:
 | "Inbox", "What needs organizing?" | List Inbox | Read `skills/list-inbox.md` |
 | "Find...", "Search...", "Show tasks with..." | Search | Read `skills/search.md` |
 | "Complete...", "Done...", "Finished..." | Complete | Read `skills/complete-task.md` |
-
-## Limitations
-
-- **macOS only** - Things 3 database only exists on Mac
-- **No iOS sync** - Cannot access Things on mobile
-- **Auth token needed** for completing tasks (see README.md)

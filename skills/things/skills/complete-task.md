@@ -1,115 +1,61 @@
 ---
-name: things-complete-task
-description: Mark tasks as complete in Things 3 by UUID or title
-version: 1.0.0
-allowed-tools: [Bash]
+name: todoist-complete-task
+description: Mark tasks as complete in Todoist by ID or title search
+version: 2.0.0
+allowed-tools: [mcp__claude_ai_Todoist__complete-tasks, mcp__claude_ai_Todoist__find-tasks]
 ---
 
-# Complete Task in Things 3
+# Complete Task in Todoist
 
 Mark one or more tasks as complete.
 
 ## How to Complete a Task
 
-```python
-import os, sys
-sys.path.insert(0, os.path.expanduser('~/.claude/skills/things/lib'))
-from reader import ThingsReader
-from writer import ThingsWriter
-
-# Option 1: Complete by UUID (most reliable)
-task_id = "ABC-123-DEF-456"
-ThingsWriter.complete_task(task_id)
-print(f"Task {task_id} marked as complete!")
-
-# Option 2: Find by title and complete
-tasks = ThingsReader.find_by_title("Write blog post")
-if tasks:
-    task = tasks[0]
-    ThingsWriter.complete_task(task['uuid'])
-    print(f"Completed: {task['title']}")
-else:
-    print("Task not found")
+**By ID** (most reliable — use IDs from previous list/search results):
+```
+Call mcp__claude_ai_Todoist__complete-tasks with:
+taskIds: ["6gjrxjXqwQQHCW6P"]
 ```
 
-## Methods
-
-| Method | When to Use |
-|--------|-------------|
-| By UUID | User provides UUID from list output |
-| By Title | User references task by name |
-| Batch | User wants to complete multiple tasks |
+**By title search** (when user references task by name):
+1. Call `find-tasks` with `searchText: "[task name]"`
+2. Identify the matching task(s) from results
+3. Call `complete-tasks` with the task ID(s)
 
 ## Instructions
 
 1. **Identify** the task(s) to complete:
-   - Use UUID directly if provided
+   - Use task ID directly if provided
    - Search by title if referenced by name
-2. **Handle multiple matches** by showing options
-3. **Complete** using `ThingsWriter.complete_task(uuid)`
+2. **Handle multiple matches** by showing options and asking which to complete
+3. **Complete** using `complete-tasks`
 4. **Confirm** with success message
 
 ## Examples
 
-**User**: "Mark task ABC-123 as done"
-```python
-ThingsWriter.complete_task("ABC-123")
-print("Task ABC-123 completed!")
-```
-
 **User**: "Complete the dentist task"
-```python
-tasks = ThingsReader.find_by_title("dentist")
-if len(tasks) == 1:
-    ThingsWriter.complete_task(tasks[0]['uuid'])
-    print(f"Completed: {tasks[0]['title']}")
-elif len(tasks) > 1:
-    print("Multiple matches found:")
-    for i, t in enumerate(tasks, 1):
-        print(f"{i}. {t['title']} [{t['uuid']}]")
-    print("Which one?")
-```
+1. `find-tasks` with `searchText: "dentist"`
+2. Confirm match, then `complete-tasks` with its ID
 
-**User**: "Mark all today tasks as complete"
-```python
-today_tasks = ThingsReader.get_today()
-incomplete = [t for t in today_tasks if t['status'] == 'incomplete']
-
-for task in incomplete:
-    ThingsWriter.complete_task(task['uuid'])
-    print(f"Completed: {task['title']}")
-
-print(f"\nAll {len(incomplete)} tasks completed!")
-```
-
-## Auth Token Required
-
-Completing tasks requires an auth token. If you get an auth error:
-
-1. Open Things 3 -> Preferences -> General
-2. Check "Enable Things URLs"
-3. Copy the auth token
-4. Save it:
-   ```bash
-   export THINGS_AUTH_TOKEN="your-token"
-   ```
-
-See `README.md` for permanent setup.
+**User**: "Mark all today's tasks as done"
+1. `find-tasks-by-date` with `startDate="today"`, `endDate="today"`
+2. `complete-tasks` with all returned IDs
 
 ## Example Output
 
 ```
-Task completed: Call dentist
-
-Task marked as complete in Things 3!
+✅ Task completed: Call dentist
 ```
 
 **Multiple matches:**
 ```
-Found 3 tasks matching 'blog':
-1. Write blog post [ABC-123] - Content Creation
-2. Edit blog images [DEF-456] - Content Creation
-3. Review blog draft [GHI-789] - Marketing
+Found 2 tasks matching 'blog':
+1. Write blog post — Content · due tomorrow
+2. Review blog draft — Content · no due date
 
-Which one would you like to complete? (1-3)
+Which one would you like to complete?
 ```
+
+## Note on Rescheduling
+
+To **move** a task to a different date (not complete it), use `reschedule-tasks` — not `update-tasks`. This preserves any recurrence patterns.

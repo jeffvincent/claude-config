@@ -1,70 +1,49 @@
 ---
-name: things-list-today
-description: View all tasks scheduled for today in Things 3
-version: 1.0.0
-allowed-tools: [Bash]
+name: todoist-list-today
+description: View all tasks due today in Todoist
+version: 2.0.0
+allowed-tools: [mcp__claude_ai_Todoist__find-tasks-by-date, mcp__claude_ai_Todoist__get-overview]
 ---
 
-# List Today's Tasks from Things 3
+# List Today's Tasks from Todoist
 
-Display all tasks scheduled for today with full context.
+Display all tasks due today with full context.
 
 ## How to List Today's Tasks
 
-```python
-import os, sys
-sys.path.insert(0, os.path.expanduser('~/.claude/skills/things/lib'))
-from reader import ThingsReader
-from helpers import ThingsFormatter
-
-# Get today's tasks
-tasks = ThingsReader.get_today()
-
-# Format and display
-if tasks:
-    print(f"Today's Tasks ({len(tasks)})\n")
-    print(ThingsFormatter.format_task_list(tasks, verbose=True, show_uuid=True))
-    print("\n" + ThingsFormatter.summarize_tasks(tasks))
-else:
-    print("No tasks scheduled for today!")
+Call `mcp__claude_ai_Todoist__find-tasks-by-date` with:
+```
+startDate: "today"
+endDate: "today"
 ```
 
-## Display Options
-
-| Option | Default | Description |
-|--------|---------|-------------|
-| `verbose` | True | Include notes, tags, project |
-| `show_uuid` | True | Show UUIDs for follow-up actions |
-| `group_by` | None | Group by 'project' or 'area' |
+Or use `mcp__claude_ai_Todoist__get-overview` for a broader view including overdue items.
 
 ## Instructions
 
-1. **Fetch** today's tasks using `ThingsReader.get_today()`
-2. **Format** using `ThingsFormatter.format_task_list()`
-3. **Display** summary using `ThingsFormatter.summarize_tasks()`
-4. **Always show UUIDs** so users can complete tasks easily
+1. **Fetch** today's tasks using `find-tasks-by-date` with `startDate="today"` and `endDate="today"`
+2. **Also check** for overdue items using `get-overview` or a second query with `endDate` in the past
+3. **Display** in a clear list with task IDs visible for follow-up actions
 
 ## Example Output
 
 ```
 Today's Tasks (3)
 
-[ ] Write blog post [ABC-123]
+[ ] Write blog post
     Focus on API design patterns
-    Tags: writing, work
-    Project: Content Creation
+    Labels: writing, work
 
-[ ] Call dentist [DEF-456]
-    Tags: health, calls
+[ ] Call dentist
+    Labels: health
 
-[x] Review pull request [GHI-789]
-    Project: Engineering
+[x] Review pull request
 
 Summary: 3 total (2 incomplete, 1 completed)
 ```
 
 ## User Variations
 
-- "What's on my plate today?" -> List today
-- "Show me today's tasks" -> List today
-- "List today grouped by project" -> Use `group_by='project'`
+- "What's on my plate today?" → List today + overdue
+- "Show me today's tasks" → List today
+- "What do I need to do?" → Use `get-overview` for full picture
